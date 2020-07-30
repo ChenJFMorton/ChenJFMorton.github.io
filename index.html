@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false};
+  </script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Chenjf&#39;s Blog">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="Chenjf&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Chen Jianfeng">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Chenjf's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Chenjf's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Chen Jianfeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content index posts-expand">
+          
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/29/JVM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chen Jianfeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chenjf's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/29/JVM/" class="post-title-link" itemprop="url">JVM调优及问题排查</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-29 17:15:15" itemprop="dateCreated datePublished" datetime="2020-07-29T17:15:15+08:00">2020-07-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-30 16:50:42" itemprop="dateModified" datetime="2020-07-30T16:50:42+08:00">2020-07-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文是针对有一定Java虚拟机基础知识后，在实际工作中解决JVM相关问题及如何进行优化，偏方法论。</p>
+<h2 id="Java内存区域及收集器介绍"><a href="#Java内存区域及收集器介绍" class="headerlink" title="Java内存区域及收集器介绍"></a>Java内存区域及收集器介绍</h2><center><font color="red">jdk1.7及之前</font></center>
+
+<p><img src="https://pic.downk.cc/item/5f2146e814195aa59465fe0a.png"></p>
+<center><font color="red">jdk1.8</font></center>
+
+<p><img src="https://pic.downk.cc/item/5f2146e814195aa59465fe0a.png"></p>
+<p>1.8同1.7比，最大的差别就是：<strong>元数据区取代了永久代</strong>。元空间的本质和永久代类似，都是对JVM规范中方法区的实现。不过元空间与永久代之间最大的区别在于：<strong>元数据空间并不在虚拟机中，而是使用本地内存</strong>。</p>
+<p><img src="https://pic.downk.cc/item/5f222aa914195aa594e49ad8.png"></p>
+<p>垃圾收集器：</p>
+<p>收集算法、垃圾收集器详细介绍：略，待补充。</p>
+<p>垃圾收集从2个方面不断的改进：提高垃圾回收效率；提高用户体验（低停顿）；</p>
+<p><img src="https://pic.downk.cc/item/5f222c2314195aa594e52e60.png"></p>
+<center>HotSpot虚拟机的垃圾收集器（介绍见参考一）</center>
+
+<h2 id="JVM调优目标"><a href="#JVM调优目标" class="headerlink" title="JVM调优目标"></a>JVM调优目标</h2><ul>
+<li><p>一、何时需要做jvm调优？</p>
+<p>​    1、heap 内存（老年代）持续上涨达到设置的最大内存值；</p>
+<p>​    2、Full GC 次数频繁；</p>
+<p>​    3、GC 停顿时间过长（超过1秒）；</p>
+<p>​    4、应用出现OutOfMemory 等内存异常；</p>
+<p>​    5、应用中有使用本地缓存且占用大量内存空间；</p>
+<p>​    6、系统吞吐量与响应性能不高或下降。</p>
+</li>
+<li><p>二、 JVM调优原则</p>
+<p>​    1、多数的Java应用不需要在服务器上进行JVM优化；</p>
+<p>​    2、多数导致GC问题的Java应用，都不是因为我们参数设置错误，而是代码问题；</p>
+<p>​    3、在应用上线之前，先考虑将机器的JVM参数设置到最优（最适合）；</p>
+<p>​    4、减少创建对象的数量；</p>
+<p>​    5、减少使用全局变量和大对象；</p>
+<p>​    6、JVM优化是到最后不得已才采用的手段；</p>
+<p>​    7、在实际使用中，分析GC情况优化代码比优化JVM参数更好；</p>
+</li>
+<li><p>三、 JVM调优目标</p>
+<p>​    1、GC低停顿；</p>
+<p>​    2、GC低频率；</p>
+<p>​    3、低内存占用；</p>
+<p>​    4、高吞吐量;</p>
+</li>
+</ul>
+<h2 id="JVM调优参数简介"><a href="#JVM调优参数简介" class="headerlink" title="JVM调优参数简介"></a>JVM调优参数简介</h2><h4 id="堆设置"><a href="#堆设置" class="headerlink" title="堆设置"></a>堆设置</h4><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-Xmn1200m</td>
+<td>设置年轻代大小为1200MB。增大年轻代后，将会减小年老代大小。此值对系统性能影响较大，Sun官方推荐配置为整个堆的3/8</td>
+</tr>
+<tr>
+<td>-Xms4g</td>
+<td>初始化堆内存大小为4GB</td>
+</tr>
+<tr>
+<td>-Xmx4g</td>
+<td>堆内存最大值为4GB</td>
+</tr>
+<tr>
+<td>-Xss512k</td>
+<td>设置每个线程的堆栈大小。JDK5.0以后每个线程堆栈大小为1MB，以前每个线程堆栈大小为256K。应根据应用线程所需内存大小进行调整。在相同物理内存下，减小这个值能生成更多的线程。但是操作系统对一个进程内的线程数还是有限制的，不能无限生成，经验值在3000~5000左右</td>
+</tr>
+<tr>
+<td>-XX:MaxDirectMemorySize</td>
+<td>堆外内存/直接内存的大小，默认为堆内存减去一个Survivor区的大小</td>
+</tr>
+<tr>
+<td>-XX:MaxMetaspaceSize=512m</td>
+<td>设置元数据区最大值512M（<font color="red">jdk1.8</font>）</td>
+</tr>
+<tr>
+<td>-XX:MaxPermSize=256m</td>
+<td>设置持久代大小为256MB。（<font color="red">jdk1.7及以下</font>）</td>
+</tr>
+<tr>
+<td>-XX:MaxTenuringThreshold=15</td>
+<td>设置垃圾最大年龄。如果设置为0的话，则年轻代对象不经过Survivor区，直接进入年老代。对于年老代比较多的应用，可以提高效率。如果将此值设置为一个较大值，则年轻代对象会在Survivor区进行多次复制，这样可以增加对象再年轻代的存活时间，增加在年轻代即被回收的概论</td>
+</tr>
+<tr>
+<td>-XX:MetaspaceSize=128m</td>
+<td>设置元数据区初始值128M（<font color="red">jdk1.8</font>）</td>
+</tr>
+<tr>
+<td>-XX:NewRatio=4</td>
+<td>设置年轻代（包括Eden和两个Survivor区）与年老代的比值（除去持久代）。设置为4，则年轻代与年老代所占比值为1：4，年轻代占整个堆栈的1/5</td>
+</tr>
+<tr>
+<td>-XX:PermSize=100m</td>
+<td>初始化永久代大小为100MB。（<font color="red">jdk1.7及以下</font>）</td>
+</tr>
+<tr>
+<td>-XX:ReservedCodeCacheSize</td>
+<td>JIT编译后二进制代码的存放区，满了之后就不再编译。默认开多层编译240M，可以在JMX里看看CodeCache的大小</td>
+</tr>
+<tr>
+<td>-XX:SurvivorRatio=8</td>
+<td>设置年轻代中Eden区与Survivor区的大小比值。设置为8，则两个Survivor区与一个Eden区的比值为2:8，一个Survivor区占整个年轻代的1/10</td>
+</tr>
+</tbody></table>
+<h4 id="GC设置"><a href="#GC设置" class="headerlink" title="GC设置"></a>GC设置</h4><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-XX:+HeapDumpOnOutOfMemoryError</td>
+<td>发生内存溢出是进行heap-dump</td>
+</tr>
+<tr>
+<td>-XX:HeapDumpPath=/path/to/java_pid.hprof</td>
+<td>这个参数与-XX:+HeapDumpOnOutOfMemoryError共同作用，设置heap-dump时内容输出文件</td>
+</tr>
+<tr>
+<td>-XX:ErrorFile=/path/to/hs_err_pid.log</td>
+<td>指定致命错误日志位置。一般在JVM发生致命错误时会输出类似hs_err_pid.log的文件，默认是在工作目录中（如果没有权限，会尝试在/tmp中创建），不过还是自己指定位置更好一些，便于收集和查找，避免丢失</td>
+</tr>
+<tr>
+<td>-XX:StringTableSize=1000003</td>
+<td>指定字符串常量池大小，默认值是60013。对Java稍微有点常识的应该知道，字符串是常量，创建之后就不可修改了，这些常量所在的地方叫做字符串常量池。如果自己系统中有很多字符串的操作，且这些字符串值比较固定，在允许的情况下，可以适当调大一些池子大小</td>
+</tr>
+</tbody></table>
+<h4 id="GC日志"><a href="#GC日志" class="headerlink" title="GC日志"></a>GC日志</h4><p>GC过程可以通过GC日志来提供优化依据。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-XX:+PrintGCDetails</td>
+<td>启用gc日志打印功能</td>
+</tr>
+<tr>
+<td>-Xloggc:/path/to/gc.log</td>
+<td>指定gc日志位置</td>
+</tr>
+<tr>
+<td>-XX:+PrintHeapAtGC</td>
+<td>打印GC前后的详细堆栈信息</td>
+</tr>
+<tr>
+<td>-XX:+PrintGCDateStamps</td>
+<td>打印可读的日期而不是时间戳</td>
+</tr>
+<tr>
+<td>-XX:+PrintGCApplicationStoppedTime</td>
+<td>打印所有引起JVM停顿时间，如果真的发现了一些不知什么的停顿，再临时加上-XX:+PrintSafepointStatistics -XX: PrintSafepointStatisticsCount=1找原因</td>
+</tr>
+<tr>
+<td>-XX:+PrintGCApplicationConcurrentTime</td>
+<td>打印JVM在两次停顿之间正常运行时间，与-XX:+PrintGCApplicationStoppedTime一起使用效果更佳</td>
+</tr>
+<tr>
+<td>-XX:+PrintTenuringDistribution</td>
+<td>查看每次minor GC后新的存活周期的阈值</td>
+</tr>
+<tr>
+<td>-XX:+UseGCLogFileRotation 与 -XX:NumberOfGCLogFiles=10 与 -XX:GCLogFileSize=10M</td>
+<td>GC日志在重启之后会清空，但是如果一个应用长时间不重启，那GC日志会增加，所以添加这3个参数，是GC日志滚动写入文件，但是如果重启，可能名字会出现混乱</td>
+</tr>
+<tr>
+<td>-XX:PrintFLSStatistics=1</td>
+<td>打印每次GC前后内存碎片的统计信息</td>
+</tr>
+</tbody></table>
+<h4 id="收集器"><a href="#收集器" class="headerlink" title="收集器"></a>收集器</h4><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明1</th>
+<th>说明2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-XX:+UseConcMarkSweepGC</td>
+<td>设置<a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html#concurrent_mark_sweep_cms_collector">CMS收集器</a> （只针对老年代）</td>
+<td>并发收集、低停顿；对CPU资源敏感，CMS默认启动的回收线程数是（CPU数量+3）/4；</td>
+</tr>
+<tr>
+<td>-XX:+UseParNewGC</td>
+<td>设置年轻代为多线程收集</td>
+<td>可以不设置，jdk 8中设置-XX:+UseConcMarkSweepGC，自动启用-XX:+UseParNewGC</td>
+</tr>
+<tr>
+<td>-XX:+CMSClassUnloadingEnabled</td>
+<td>配合-XX:+UseConcMarkSweepGC使用，垃圾回收会清理持久代，移除不再使用的classes</td>
+<td></td>
+</tr>
+<tr>
+<td>-XX:+ UseG1GC</td>
+<td>允许使用垃圾优先（G1）垃圾收集器。它是一个服务器式垃圾收集器，针对具有大量RAM的多处理器计算机。它以高概率满足GC暂停时间目标，同时保持良好的吞吐量。</td>
+<td>G1收集器推荐用于需要大堆（大小约为6 GB或更大）且GC延迟要求有限的应用（稳定且可预测的暂停时间低于0.5秒）。</td>
+</tr>
+<tr>
+<td>G1其他参数详情请见参考一</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="其他参数设置"><a href="#其他参数设置" class="headerlink" title="其他参数设置"></a>其他参数设置</h4><table>
+<thead>
+<tr>
+<th>参数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-ea</td>
+<td align="left">启用断言，这个没有什么好说的，可以选择启用，或这选择不启用，没有什么大的差异。完全根据自己的系统进行处理</td>
+</tr>
+<tr>
+<td>-XX:+UseThreadPriorities</td>
+<td align="left">启用线程优先级，主要是因为我们可以给予周期性任务更低的优先级，以避免干扰客户端工作。在我当前的环境中，是默认启用的</td>
+</tr>
+<tr>
+<td>-XX:ThreadPriorityPolicy=42</td>
+<td align="left">允许降低线程优先级</td>
+</tr>
+<tr>
+<td>-XX:+HeapDumpOnOutOfMemoryError</td>
+<td align="left">发生内存溢出是进行heap-dump</td>
+</tr>
+<tr>
+<td>-XX:HeapDumpPath=/path/to/java_pid.hprof</td>
+<td align="left">这个参数与-XX:+HeapDumpOnOutOfMemoryError共同作用，设置heap-dump时内容输出文件</td>
+</tr>
+<tr>
+<td>-XX:ErrorFile=/path/to/hs_err_pid.log</td>
+<td align="left">指定致命错误日志位置。一般在JVM发生致命错误时会输出类似hs_err_pid.log的文件，默认是在工作目录中（如果没有权限，会尝试在/tmp中创建），不过还是自己指定位置更好一些，便于收集和查找，避免丢失</td>
+</tr>
+<tr>
+<td>-XX:StringTableSize=1000003</td>
+<td align="left">指定字符串常量池大小，默认值是60013。对Java稍微有点常识的应该知道，字符串是常量，创建之后就不可修改了，这些常量所在的地方叫做字符串常量池。如果自己系统中有很多字符串的操作，且这些字符串值比较固定，在允许的情况下，可以适当调大一些池子大小</td>
+</tr>
+<tr>
+<td>-XX:+AlwaysPreTouch</td>
+<td align="left">在启动时把所有参数定义的内存全部捋一遍。使用这个参数可能会使启动变慢，但是在后面内存使用过程中会更快。可以保证内存页面连续分配，新生代晋升时不会因为申请内存页面使GC停顿加长。通常只有在内存大于32G的时候才会有感觉</td>
+</tr>
+<tr>
+<td>-XX:-UseBiasedLocking</td>
+<td align="left">禁用偏向锁（在存在大量锁对象的创建且高度并发的环境下(即非多线程高并发应用)禁用偏向锁能够带来一定的性能优化）</td>
+</tr>
+<tr>
+<td>-XX:AutoBoxCacheMax=20000</td>
+<td align="left">增加数字对象自动装箱的范围，JDK默认-128～127的int和long，超出范围就会即时创建对象，所以，增加范围可以提高性能，但是也是需要测试</td>
+</tr>
+<tr>
+<td>-XX:-OmitStackTraceInFastThrow</td>
+<td align="left">不忽略重复异常的栈，这是JDK的优化，大量重复的JDK异常不再打印其StackTrace。但是如果系统是长时间不重启的系统，在同一个地方跑了N多次异常，结果就被JDK忽略了，那岂不是查看日志的时候就看不到具体的StackTrace，那还怎么调试，所以还是关了的好</td>
+</tr>
+<tr>
+<td>-XX:+PerfDisableSharedMem</td>
+<td align="left">启用标准内存使用。JVM控制分为标准或共享内存，区别在于一个是在JVM内存中，一个是生成/tmp/hsperfdata_{userid}/{pid}文件，存储统计数据，通过mmap映射到内存中，别的进程可以通过文件访问内容。通过这个参数，可以禁止JVM写在文件中写统计数据，代价就是jps、jstat这些命令用不了了，只能通过jmx获取数据。但是在问题排查是，jps、jstat这些小工具是很好用的，比jmx这种很重的东西好用很多，所以需要自己取舍。这里有个GC停顿的例子</td>
+</tr>
+<tr>
+<td>-Djava.net.preferIPv4Stack=true</td>
+<td align="left">这个参数是属于网络问题的一个参数，可以根据需要设置。在某些开启ipv6的机器中，通过InetAddress.getLocalHost().getHostName()可以获取完整的机器名，但是在ipv4的机器中，可能通过这个方法获取的机器名不完整，可以通过这个参数来获取完整机器名</td>
+</tr>
+</tbody></table>
+<h2 id="JVM如何调优"><a href="#JVM如何调优" class="headerlink" title="JVM如何调优"></a>JVM如何调优</h2><h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><p>​    第1步：分析GC日志（详见参考四、五）及dump文件，判断是否需要优化，确定瓶颈问题点；</p>
+<p>​    第2步：确定JVM调优量化目标；</p>
+<p>​    第3步：确定JVM调优参数（根据历史JVM参数来调整）；</p>
+<p>​    第4步：调优一台服务器，对比观察调优前后的差异；</p>
+<p>​    第5步：不断的分析和调整，直到找到合适的JVM参数配置；</p>
+<p>​    第6步：找到最合适的参数，将这些参数应用到所有服务器，并进行后续跟踪。</p>
+<h4 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h4><p>jps：查询java进程</p>
+<p>jstat：虚拟机运行状态信息</p>
+<p>jmap：生成堆存储快照</p>
+<p>jstack：生成虚拟机当前时刻的线程快照，帮助定位线程出现长时间停顿的原因</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c6a04c88900a">https://www.jianshu.com/p/c6a04c88900a</a></p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>不同的环境有不同的方案，可以参考，不过还是建议在自己的环境中有针对的验证之后再使用，毕竟各自的环境都有差异。</p>
+<h4 id="gc查看"><a href="#gc查看" class="headerlink" title="gc查看"></a>gc查看</h4><p>查看gc.log状态，可参考 <font color="red">参考四、参考五</font>；</p>
+<p>结论：没有Full GC；每次从年轻代移到了老年代的内存占老年代总内存比例并不大：</p>
+<p><img src="https://pic.downk.cc/item/5f223ba014195aa594eca7aa.png"></p>
+<p>查看star.hprof文件（使用JProfiler），如果有的话；</p>
+<p>查询某一时刻虚拟机运行状态；</p>
+<p>./jdk/jdk1.8.0_101/bin/jstat -gc 【pid】 3600s</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>设置的值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>S0C</td>
+<td>Survivor0空间的大小。单位KB。</td>
+<td>316992.0（0.3G）</td>
+</tr>
+<tr>
+<td>S1C</td>
+<td>Survivor1空间的大小。单位KB。</td>
+<td>316992.0（0.3G）</td>
+</tr>
+<tr>
+<td>S0U</td>
+<td>Survivor0已用空间的大小。单位KB。</td>
+<td>0</td>
+</tr>
+<tr>
+<td>S1U</td>
+<td>Survivor1已用空间的大小。单位KB。</td>
+<td>17521.7</td>
+</tr>
+<tr>
+<td>EC</td>
+<td>Eden空间的大小。单位KB。</td>
+<td>2536320.0（2.4G）</td>
+</tr>
+<tr>
+<td>EU</td>
+<td>Eden已用空间的大小。单位KB。</td>
+<td></td>
+</tr>
+<tr>
+<td>OC</td>
+<td>老年代空间的大小。单位KB。</td>
+<td>3121152.0（3G）</td>
+</tr>
+<tr>
+<td>OU</td>
+<td>老年代已用空间的大小。单位KB。</td>
+<td>221391（0.21G）</td>
+</tr>
+<tr>
+<td>MC</td>
+<td>方法区大小</td>
+<td>125824.0（0.12G）</td>
+</tr>
+<tr>
+<td>MU</td>
+<td>方法区使用大小</td>
+<td>119041（0.11G）</td>
+</tr>
+<tr>
+<td>CCSC</td>
+<td>压缩类空间大小</td>
+<td>13824.0（0.01G）</td>
+</tr>
+<tr>
+<td>CCSU</td>
+<td>压缩类空间使用大小</td>
+<td>12536</td>
+</tr>
+<tr>
+<td>YGC</td>
+<td>年轻代垃圾回收次数</td>
+<td>261</td>
+</tr>
+<tr>
+<td>YGCT</td>
+<td>年轻代垃圾回收消耗时间</td>
+<td>10.931（0.04s/次）</td>
+</tr>
+<tr>
+<td>FGC</td>
+<td>老年代垃圾回收次数</td>
+<td>0</td>
+</tr>
+<tr>
+<td>FGCT</td>
+<td>老年代垃圾回收消耗时间</td>
+<td>0</td>
+</tr>
+<tr>
+<td>GCT</td>
+<td>垃圾回收消耗总时间</td>
+<td>10.931</td>
+</tr>
+</tbody></table>
+<h4 id="查看系统jvm参数状态"><a href="#查看系统jvm参数状态" class="headerlink" title="查看系统jvm参数状态"></a>查看系统jvm参数状态</h4><p>机器状况</p>
+<table>
+<thead>
+<tr>
+<th>内存</th>
+<th>CPU</th>
+<th>磁盘空间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>8G</td>
+<td>4*4</td>
+<td>60G</td>
+</tr>
+</tbody></table>
+<p>当前jvm参数配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xms6144m -Xmx6144m -XX:MaxPermSize&#x3D;256m -verbose:gc -XX:+PrintGCDetails -Xloggc:&#x2F;..&#x2F;tomcat&#x2F;logs&#x2F;gc.log -XX:+PrintGCTimeStamps -XX:+PrintGCDetails -XX:MetaspaceSize&#x3D;256m -XX:MaxMetaspaceSize&#x3D;256m -Xmn3096m -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSClassUnloadingEnabled -XX:+ExplicitGCInvokesConcurrent -XX:+ExplicitGCInvokesConcurrentAndUnloadsClasses -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath&#x3D;&#x2F;..&#x2F;tomcat&#x2F;logs&#x2F;star.hprof </span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">参数</td>
+<td align="left">说明</td>
+<td align="left">建议</td>
+</tr>
+<tr>
+<td align="left">-Xms6144m</td>
+<td align="left">初始化堆内存大小为6GB</td>
+<td align="left">低于系统内存</td>
+</tr>
+<tr>
+<td align="left">-Xmx6144m</td>
+<td align="left">堆内存最大值为6GB</td>
+<td align="left">低于系统内存</td>
+</tr>
+<tr>
+<td align="left"><del>-XX:MaxPermSize=256m</del></td>
+<td align="left">设置永久代最大为256MB（无用）</td>
+<td align="left">jdk1.8不需要设置</td>
+</tr>
+<tr>
+<td align="left">-verbose:gc</td>
+<td align="left">输出虚拟机中GC的详细情况</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">-XX:+PrintGCDetails</td>
+<td align="left">输出虚拟机中GC的详细情况</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">-Xloggc:/../tomcat/logs/gc.log</td>
+<td align="left">设置gc日志文件位子</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">-XX:+PrintGCTimeStamps</td>
+<td align="left">打印gc时间时间戳，gc.log</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">-XX:MetaspaceSize=256m</td>
+<td align="left">设置元数据区初始值256M （永久代）</td>
+<td align="left">该值越大触发Full GC的时机就越晚，</td>
+</tr>
+<tr>
+<td align="left">-XX:MaxMetaspaceSize=256m</td>
+<td align="left">设置元数据区最大值256M （永久代）</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">-Xmn3096m</td>
+<td align="left">设置年轻代区域3G</td>
+<td align="left">Sun官方推荐配置为整个堆的3/8</td>
+</tr>
+<tr>
+<td align="left">-XX:+UseConcMarkSweepGC</td>
+<td align="left">设置<font color="red"><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html#concurrent_mark_sweep_cms_collector">CMS收集器</a> （只针对老年代）</font></td>
+<td align="left">并发收集、低停顿；对CPU资源敏感，CMS默认启动的回收线程数是（CPU数量+3）/4；</td>
+</tr>
+<tr>
+<td align="left"><del>-XX:+UseParNewGC</del></td>
+<td align="left">设置<font color="red">年轻代为多线程收集</font></td>
+<td align="left">可以不设置，jdk 8中设置-XX:+UseConcMarkSweepGC，自动启用-XX:+UseParNewGC</td>
+</tr>
+<tr>
+<td align="left">-XX:+CMSClassUnloadingEnabled</td>
+<td align="left">配合-XX:+UseConcMarkSweepGC使用，垃圾回收会清理持久代，移除不再使用的classes</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">-XX:+ExplicitGCInvokesConcurrent</td>
+<td align="left">允许使用<code>System.gc()</code>请求调用并发GC 。默认情况下禁用此选项，并且只能与该<code>-XX:+UseConcMarkSweepGC</code>选项一起启用</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">-XX:+ExplicitGCInvokesConcurrentAndUnloadsClasses</td>
+<td align="left">通过<code>System.gc()</code>在并发GC周期期间使用请求和卸载类，可以调用并发GC。默认情况下禁用此选项，并且只能与该<code>-XX:+UseConcMarkSweepGC</code>选项一起启用</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">-XX:+HeapDumpOnOutOfMemoryError</td>
+<td align="left">通过使用堆分析器（HPROF）将Java堆转储到当前目录中的文件</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">-XX:HeapDumpPath=/home/ewallet/loan-star/loan-star-pre/default/tomcat/logs/star.hprof</td>
+<td align="left">设置用于写入堆分析器（HPROF）提供的堆转储的路径和文件名。默认情况下，该文件在当前工作目录中创建，并且名为java_pidpid.hprof，其中pid是导致错误的进程的标识符</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>当前机器的配置足够，在目前情况下优化参数不会有太大的提升效果。</p>
+<p>假如在降低机器配置前提下，那需要依赖数据，做相应的调整，具体要看机器成本而定。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><h4 id="附一-找到占用cpu最高的一个线程"><a href="#附一-找到占用cpu最高的一个线程" class="headerlink" title="附一 找到占用cpu最高的一个线程"></a>附一 找到占用cpu最高的一个线程</h4><ul>
+<li><p>第一步，找到占用cpu最高的一个线程pid</p>
+<p>方法：直接top,然后shift+h</p>
+</li>
+<li><p>第二步，将其转化成16进制。假使我们得到的线程号为【n】，接下来将它转成16进制，记为spid</p>
+<p>方法：printf 0x%x 【n】</p>
+</li>
+<li><p>第三步，执行jstack -l 【pid】| grep 【spid】 -A 100 打印后面100行分析问题</p>
+<p>插件使用：<a target="_blank" rel="noopener" href="https://github.com/oldratlee/useful-scripts">https://github.com/oldratlee/useful-scripts</a></p>
+</li>
+</ul>
+<h4 id="附二-参考资料"><a href="#附二-参考资料" class="headerlink" title="附二 参考资料"></a>附二 参考资料</h4><p>参考一：<a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html">https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html </a>（ <font color="red">参数</font>）</p>
+<p>​       <a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/index.html%EF%BC%88">https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/index.html（</a><font color="red">收集器</font>）</p>
+<p>​       <a target="_blank" rel="noopener" href="https://www.oracle.com/technetwork/java/tuning-139912.html%EF%BC%88">https://www.oracle.com/technetwork/java/tuning-139912.html（</a><font color="red">调优试例</font>）</p>
+<p>参考二：书籍：深入理解Java虚拟机（第二版） </p>
+<p>​       书籍：Java Performance：The Definitive Guide</p>
+<p> 参考三：<a target="_blank" rel="noopener" href="https://blog.csdn.net/linhu007/article/details/48897597%EF%BC%88">https://blog.csdn.net/linhu007/article/details/48897597（</a><font color="red">CMS与G1</font>）</p>
+<p>参考四：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zc19921215/article/details/83029952">https://blog.csdn.net/zc19921215/article/details/83029952</a></p>
+<p>参考五：<a target="_blank" rel="noopener" href="https://www.aliyun.com/jiaocheng/1341282.html">https://www.aliyun.com/jiaocheng/1341282.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Jianfeng</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
