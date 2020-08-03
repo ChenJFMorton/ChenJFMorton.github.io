@@ -1,0 +1,34 @@
+
+# Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+
+# Schemes
+#scheme: Muse
+#scheme: Mist
+scheme: Pisces
+#scheme: Gemini
+
+# Valine
+# For more information: https://valine.js.org, https://github.com/xCss/Valine
+valine:
+  enable: true
+  appId: 1kVszHAOMaqpz0p9HaUY4jS3-9Nh9j0Va
+  appKey: GKfDomM0s9bBI7BLr9K1iSvR
+  placeholder: Just go go # Comment box placeholder
+  avatar: mm # Gravatar style
+  meta: [nick, mail, link] # Custom comment header
+  pageSize: 10 # Pagination size
+  language: zh-cn # Language, available values: en, zh-cn
+  visitor: false # Article reading statistic
+  comment_count: true # If false, comment count will only be displayed in post page, not in home page
+  recordIP: false # Whether to record the commenter IP
+#  serverURLs: # When the custom domain name is enabled, fill it in here (it will be detected automatically by default, no need to fill in)
+  #post_meta_order: 0
+
+# Show number of visitors to each article.
+# You can visit https://leancloud.cn get AppID and AppKey.
+leancloud_visitors:
+  enable: true
+  app_id: 1kVszHAOMaqpz0p9HaUY4jS3-9Nh9j0Va
+  app_key: GKfDomM0s9bBI7BLr9K1iSvR

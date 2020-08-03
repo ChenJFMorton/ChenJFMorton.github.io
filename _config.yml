@@ -99,12 +99,12 @@ ignore:
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: next
-theme_config:
-  # Schemes
-  #scheme: Muse
-  #scheme: Mist
-  scheme: Pisces
-  #scheme: Gemini
+#theme_config:
+#  # Schemes
+#  #scheme: Muse
+#  #scheme: Mist
+#  scheme: Pisces
+#  #scheme: Gemini
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
