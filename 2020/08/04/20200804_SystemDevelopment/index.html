@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false};
+  </script>
+
+  <meta name="description" content="性能目的 更低的成本获得更高的价值 服务器成本 用户体验    优化原则 数据说话 遵循演化原则和适度原则 切记过早优化 切记过度优化   业务导向二、优化原则 数据说话 遵循演化原则和适度原则 切记过早优化 切记过度优化   业务导向    优化思路 做的少 做得快  如何优化 存储高性能 缓存 读写分离 分库分表 NOSQL   计算高性能 集群 横向扩展   单机 硬件 纵向扩展 参数优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系统发展涉及点">
+<meta property="og:url" content="http://yoursite.com/2020/08/04/20200804_SystemDevelopment/index.html">
+<meta property="og:site_name" content="Chenjf&#39;s Blog">
+<meta property="og:description" content="性能目的 更低的成本获得更高的价值 服务器成本 用户体验    优化原则 数据说话 遵循演化原则和适度原则 切记过早优化 切记过度优化   业务导向二、优化原则 数据说话 遵循演化原则和适度原则 切记过早优化 切记过度优化   业务导向    优化思路 做的少 做得快  如何优化 存储高性能 缓存 读写分离 分库分表 NOSQL   计算高性能 集群 横向扩展   单机 硬件 纵向扩展 参数优化">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-04T02:15:15.000Z">
+<meta property="article:modified_time" content="2020-10-30T02:49:34.904Z">
+<meta property="article:author" content="Chen Jianfeng">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/08/04/20200804_SystemDevelopment/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>系统发展涉及点 | Chenjf's Blog</title><meta name="robots" content="noindex">
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Chenjf's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%A7%E8%83%BD"><span class="nav-number">1.</span> <span class="nav-text">性能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E7%9A%84"><span class="nav-number">1.1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%8E%9F%E5%88%99"><span class="nav-number">1.2.</span> <span class="nav-text">优化原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%80%9D%E8%B7%AF"><span class="nav-number">1.3.</span> <span class="nav-text">优化思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96"><span class="nav-number">1.4.</span> <span class="nav-text">如何优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%8F%91%E7%8E%B0"><span class="nav-number">1.5.</span> <span class="nav-text">如何发现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F"><span class="nav-number">1.6.</span> <span class="nav-text">处理方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">扩展性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3"><span class="nav-number">2.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%B5%E5%BE%AA%E5%8E%9F%E5%88%99"><span class="nav-number">2.2.</span> <span class="nav-text">遵循原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%9A%E5%8A%A1-amp-%E9%9C%80%E6%B1%82%E5%8F%98%E5%8C%96"><span class="nav-number">2.3.</span> <span class="nav-text">业务&amp;需求变化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E6%89%A9%E5%B1%95%E6%80%A7"><span class="nav-number">2.4.</span> <span class="nav-text">服务扩展性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%89%A9%E5%B1%95%E6%80%A7"><span class="nav-number">2.5.</span> <span class="nav-text">数据扩展性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%B4%E6%8A%A4%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text">维护性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E7%94%A8%E6%80%A7"><span class="nav-number">4.</span> <span class="nav-text">可用性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6"><span class="nav-number">4.1.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6"><span class="nav-number">4.2.</span> <span class="nav-text">软件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">5.</span> <span class="nav-text">安全性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6-1"><span class="nav-number">5.1.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E"><span class="nav-number">5.2.</span> <span class="nav-text">漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%9A%E5%8A%A1"><span class="nav-number">5.3.</span> <span class="nav-text">业务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE"><span class="nav-number">5.4.</span> <span class="nav-text">数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%BA"><span class="nav-number">5.5.</span> <span class="nav-text">人</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chen Jianfeng"
+      src="https://pic.downk.cc/item/5f277a5a14195aa594cad4d0.jpg">
+  <p class="site-author-name" itemprop="name">Chen Jianfeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/04/20200804_SystemDevelopment/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://pic.downk.cc/item/5f277a5a14195aa594cad4d0.jpg">
+      <meta itemprop="name" content="Chen Jianfeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chenjf's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          系统发展涉及点
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-04 10:15:15" itemprop="dateCreated datePublished" datetime="2020-08-04T10:15:15+08:00">2020-08-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-30 10:49:34" itemprop="dateModified" datetime="2020-10-30T10:49:34+08:00">2020-10-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Project/" itemprop="url" rel="index"><span itemprop="name">Project</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/08/04/20200804_SystemDevelopment/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/04/20200804_SystemDevelopment/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h2><h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><ul>
+<li>更低的成本获得更高的价值<ul>
+<li>服务器成本</li>
+<li>用户体验</li>
+</ul>
+</li>
+</ul>
+<h3 id="优化原则"><a href="#优化原则" class="headerlink" title="优化原则"></a>优化原则</h3><ul>
+<li>数据说话</li>
+<li>遵循演化原则和适度原则<ul>
+<li>切记过早优化</li>
+<li>切记过度优化</li>
+</ul>
+</li>
+<li>业务导向二、优化原则<ul>
+<li>数据说话</li>
+<li>遵循演化原则和适度原则<ul>
+<li>切记过早优化</li>
+<li>切记过度优化</li>
+</ul>
+</li>
+<li>业务导向</li>
+</ul>
+</li>
+</ul>
+<h3 id="优化思路"><a href="#优化思路" class="headerlink" title="优化思路"></a>优化思路</h3><ul>
+<li>做的少</li>
+<li>做得快</li>
+</ul>
+<h3 id="如何优化"><a href="#如何优化" class="headerlink" title="如何优化"></a>如何优化</h3><ul>
+<li>存储高性能<ul>
+<li>缓存</li>
+<li>读写分离</li>
+<li>分库分表</li>
+<li>NOSQL</li>
+</ul>
+</li>
+<li>计算高性能<ul>
+<li>集群<ul>
+<li>横向扩展</li>
+</ul>
+</li>
+<li>单机<ul>
+<li>硬件<ul>
+<li>纵向扩展</li>
+<li>参数优化</li>
+</ul>
+</li>
+<li>软件<ul>
+<li>缓存【将数据缓存在离使用者更近的地方】<ul>
+<li>多级缓存。前端、cdn、分布式缓存、本地缓存</li>
+</ul>
+</li>
+<li>批量操作</li>
+<li>异步<ul>
+<li>MQ、线程、队列、排队等</li>
+</ul>
+</li>
+<li>快速失败或者快速成功</li>
+<li>预处理<ul>
+<li>线程池、连接池等</li>
+</ul>
+</li>
+<li>代码优化&amp;参数优化<ul>
+<li>JVM参数、代码细节</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何发现"><a href="#如何发现" class="headerlink" title="如何发现"></a>如何发现</h3><ul>
+<li>哨兵监控<ul>
+<li>系统级</li>
+<li>业务层</li>
+</ul>
+</li>
+</ul>
+<h3 id="处理方式"><a href="#处理方式" class="headerlink" title="处理方式"></a>处理方式</h3><ul>
+<li>没有缓存解决不了的<ul>
+<li>纵向：扩大容量</li>
+<li>横向：按照业务、key等分不同缓存</li>
+</ul>
+</li>
+<li>能用MQ就用MQ</li>
+</ul>
+<h2 id="扩展性"><a href="#扩展性" class="headerlink" title="扩展性"></a>扩展性</h2><h3 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h3><ul>
+<li>细、远、拆</li>
+</ul>
+<h3 id="遵循原则"><a href="#遵循原则" class="headerlink" title="遵循原则"></a>遵循原则</h3><ul>
+<li>适度原则</li>
+<li>演化原则</li>
+<li>简单原则</li>
+</ul>
+<h3 id="业务-amp-需求变化"><a href="#业务-amp-需求变化" class="headerlink" title="业务&amp;需求变化"></a>业务&amp;需求变化</h3><ul>
+<li>业务扩展性<ul>
+<li>目标：新增、修改业务功能，快速开发且对老业务影响最小</li>
+<li>原则<ul>
+<li>熟悉业务，预测变化</li>
+<li>遵循适度、演化、简单原则</li>
+<li>警惕设计过度</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>架构扩展性<ul>
+<li>服务化：微服务+领域模型<ul>
+<li>前提：熟悉业务，不然是负债</li>
+</ul>
+</li>
+<li>事件驱动</li>
+<li>系统分层</li>
+<li>docker</li>
+</ul>
+</li>
+<li>代码扩展性<ul>
+<li>兼容性<ul>
+<li>服务兼容性</li>
+<li>接口兼容性</li>
+<li>缓存兼容性<ul>
+<li>数据结构</li>
+<li>数据内容</li>
+</ul>
+</li>
+<li>数据兼容性<ul>
+<li>表结构变更</li>
+<li>表数据变更</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>配置化</li>
+<li>插件化</li>
+<li>抽象层和实现层隔离</li>
+<li>稳定性和变化性隔离</li>
+<li>设计模式</li>
+</ul>
+</li>
+<li>思维扩展性<ul>
+<li>加强思维认知</li>
+</ul>
+</li>
+</ul>
+<h3 id="服务扩展性"><a href="#服务扩展性" class="headerlink" title="服务扩展性"></a>服务扩展性</h3><ul>
+<li>无状态原则</li>
+<li>http、dubbo</li>
+</ul>
+<h3 id="数据扩展性"><a href="#数据扩展性" class="headerlink" title="数据扩展性"></a>数据扩展性</h3><ul>
+<li>纵向</li>
+<li>横向</li>
+<li>NOSQL</li>
+</ul>
+<h2 id="维护性"><a href="#维护性" class="headerlink" title="维护性"></a>维护性</h2><ul>
+<li>可读性<ul>
+<li>代码可读性</li>
+</ul>
+</li>
+<li>可测性<ul>
+<li>代码可测性</li>
+</ul>
+</li>
+<li>维护性<ul>
+<li>系统架构维护</li>
+<li>系统中模块规范</li>
+<li>技术规范</li>
+<li>监控规范</li>
+<li>文档规范</li>
+<li>CMS<ul>
+<li>标准化、流程化、自动化</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="可用性"><a href="#可用性" class="headerlink" title="可用性"></a>可用性</h2><p>定义：在能够接受的性能下，持续正确的运行，即使遇到软硬件错误，人为错误</p>
+<h3 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h3><ul>
+<li>原则<ul>
+<li>冗余方案</li>
+</ul>
+</li>
+<li>存储<ul>
+<li>硬盘：多备份，raid</li>
+<li>主备</li>
+<li>主从</li>
+<li>异地多活<ul>
+<li>本质：解决数据一致性问题</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>计算<ul>
+<li>集群</li>
+</ul>
+</li>
+</ul>
+<h3 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h3><ul>
+<li>幂等<ul>
+<li>业务唯一编号</li>
+<li>业务层、数据库（唯一性）同时保证</li>
+</ul>
+</li>
+<li>熔断</li>
+<li>限流</li>
+<li>容错<ul>
+<li>中间件<ul>
+<li>redis<ul>
+<li>熔断</li>
+<li>降级</li>
+<li>本地缓存</li>
+<li>多集群、异地部署</li>
+<li>超时配置，异常捕捉</li>
+</ul>
+</li>
+<li>dubbo</li>
+<li>zk</li>
+<li>mq</li>
+</ul>
+</li>
+<li>业务（原则：尽可能少竞争稀有资源）<ul>
+<li>默认图片</li>
+<li>默认文案</li>
+<li>默认业务</li>
+<li>默认页面</li>
+</ul>
+</li>
+<li>db<ul>
+<li>主从切换</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>降级<ul>
+<li>原则：牺牲不重要业务，来提升核心业务性能</li>
+</ul>
+</li>
+<li>隔离<ul>
+<li>原则：保证核心服务</li>
+<li>什么是核心业务<ul>
+<li>产品本质服务<ul>
+<li>比如微信：聊天，支付宝：支付</li>
+</ul>
+</li>
+<li>赚钱服务</li>
+</ul>
+</li>
+<li>方式<ul>
+<li>线程池隔离</li>
+<li>docker</li>
+<li>机器、服务隔离</li>
+<li>接口隔离</li>
+<li>业务隔离<ul>
+<li>渠道方</li>
+<li>调用方</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>并发安全<ul>
+<li>并发粒度尽量小</li>
+<li>并发相关配置<ul>
+<li>线程池大小</li>
+<li>等待时间</li>
+<li>等待队列</li>
+</ul>
+</li>
+<li>线程安全<ul>
+<li>数据错误</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>一致性<ul>
+<li>数据一致性</li>
+</ul>
+</li>
+<li>bug</li>
+<li>监控报警<ul>
+<li>业务<ul>
+<li>数据对账</li>
+<li>基线波动（正常1000，突然变成1或10000）</li>
+</ul>
+</li>
+<li>系统</li>
+</ul>
+</li>
+<li>异常自动恢复<ul>
+<li>数据重新计算核对、重试</li>
+</ul>
+</li>
+<li>快速失败<ul>
+<li>http</li>
+<li>dubbo</li>
+<li>数据库连接</li>
+<li>中间件超时时间配置</li>
+</ul>
+</li>
+<li>事务<ul>
+<li>粒度尽量小</li>
+<li>禁止远程调用</li>
+</ul>
+</li>
+<li>测试<ul>
+<li>单元测试</li>
+<li>性能测试</li>
+<li>安全测试</li>
+<li>全链路压测</li>
+</ul>
+</li>
+<li>异常重试<ul>
+<li>防止雪崩，重试次数限制</li>
+</ul>
+</li>
+</ul>
+<h2 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h2><h3 id="硬件-1"><a href="#硬件-1" class="headerlink" title="硬件"></a>硬件</h3><ul>
+<li>ddos</li>
+<li>防火墙<ul>
+<li>端口</li>
+</ul>
+</li>
+<li>nginx<ul>
+<li>ip限制</li>
+<li>url限制</li>
+</ul>
+</li>
+<li>http+https</li>
+</ul>
+<h3 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h3><ul>
+<li>框架漏洞</li>
+<li>系统漏铜</li>
+</ul>
+<h3 id="业务"><a href="#业务" class="headerlink" title="业务"></a>业务</h3><ul>
+<li>权限控制<ul>
+<li>登录</li>
+<li>白名单</li>
+<li>黑名单</li>
+</ul>
+</li>
+<li>伪造<ul>
+<li>第三方接口签名验证</li>
+</ul>
+</li>
+<li>数据校验<ul>
+<li>技术校验<ul>
+<li>长度、空值、分页限制</li>
+</ul>
+</li>
+<li>业务校验<ul>
+<li>比如：订单ID为传入参数进行支付，那通过订单ID查到的下单人和当前登入用户应该保持一致</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>风控校验<ul>
+<li>比如：单日提现不超过500.下单每日不超过5次</li>
+</ul>
+</li>
+<li>幂等性</li>
+<li>流程审核<ul>
+<li>比如，A发起审核，B进行确认，再C确认</li>
+</ul>
+</li>
+<li>反编译<ul>
+<li>客户端</li>
+<li>前端</li>
+</ul>
+</li>
+</ul>
+<h3 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h3><ul>
+<li>传输（框架解决）<ul>
+<li>sql注入</li>
+<li>XSS防御</li>
+</ul>
+</li>
+<li>存储（log\db\es）<ul>
+<li>敏感信息加密保存</li>
+</ul>
+</li>
+<li>展示(身份证等敏感信息)<ul>
+<li>订单ID</li>
+<li>身份证信息</li>
+<li>手机号信息</li>
+</ul>
+</li>
+</ul>
+<h3 id="人"><a href="#人" class="headerlink" title="人"></a>人</h3><ul>
+<li>重要信息泄露<ul>
+<li>代码、地址等上传到外部</li>
+<li>配置文件密码等放在代码中</li>
+</ul>
+</li>
+<li>删库等人为操作</li>
+</ul>
+<!-- flag of hidden posts -->
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Jianfeng</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"1kVszHAOMaqpz0p9HaUY4jS3-9Nh9j0Va","appKey":"GKfDomM0s9bBI7BLr9K1iSvR","placeholder":"Just go go","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"language":"zh-cn","visitor":false,"comment_count":true,"recordIP":false,"serverURLs":null}
+    ));
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -20,15 +20,21 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Chenjf&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/tags/JVM/index.html">
+  <meta name="description" content="需求某个时间段内，对应奖品类别发放特定数量。 方案假如 10个奖品A，100个奖品B，1000个奖品C，在8点到16点时间内分发完，在8-16点时间按秒随机1110个不同时间点的数据，按从早到晚排序到中奖时间队列中，当某个用户参与中奖，如果中奖队列存在比当前时间早的，依次中奖，并按照剩余奖品类别个数依次做区间划分，如刚开始是1-10-110-1110，从1110随机取整数定位奖品编号。 应用red">
+<meta property="og:type" content="article">
+<meta property="og:title" content="抽奖的一种实现方式">
+<meta property="og:url" content="http://yoursite.com/2020/08/03/20200803_Lottery/index.html">
 <meta property="og:site_name" content="Chenjf&#39;s Blog">
+<meta property="og:description" content="需求某个时间段内，对应奖品类别发放特定数量。 方案假如 10个奖品A，100个奖品B，1000个奖品C，在8点到16点时间内分发完，在8-16点时间按秒随机1110个不同时间点的数据，按从早到晚排序到中奖时间队列中，当某个用户参与中奖，如果中奖队列存在比当前时间早的，依次中奖，并按照剩余奖品类别个数依次做区间划分，如刚开始是1-10-110-1110，从1110随机取整数定位奖品编号。 应用red">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.downk.cc/item/5f27c03814195aa594e094aa.png">
+<meta property="article:published_time" content="2020-08-03T07:15:15.000Z">
+<meta property="article:modified_time" content="2020-10-30T02:49:34.892Z">
 <meta property="article:author" content="Chen Jianfeng">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.downk.cc/item/5f27c03814195aa594e094aa.png">
 
-<link rel="canonical" href="http://yoursite.com/tags/JVM/">
+<link rel="canonical" href="http://yoursite.com/2020/08/03/20200803_Lottery/">
 
 
 <script id="page-configurations">
@@ -36,12 +42,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签: JVM | Chenjf's Blog</title>
+  <title>抽奖的一种实现方式 | Chenjf's Blog</title><meta name="robots" content="noindex">
   
 
 
@@ -127,7 +133,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -139,6 +145,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">方案</span></a></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -194,57 +201,121 @@
       <div class="main-inner">
         
 
-        <div class="content tag">
+        <div class="content post posts-expand">
           
 
+    
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/03/20200803_Lottery/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://pic.downk.cc/item/5f277a5a14195aa594cad4d0.jpg">
+      <meta itemprop="name" content="Chen Jianfeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chenjf's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          抽奖的一种实现方式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-03 15:15:15" itemprop="dateCreated datePublished" datetime="2020-08-03T15:15:15+08:00">2020-08-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-30 10:49:34" itemprop="dateModified" datetime="2020-10-30T10:49:34+08:00">2020-10-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Project/" itemprop="url" rel="index"><span itemprop="name">Project</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">JVM
-          <small>标签</small>
-        </h2>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/08/03/20200803_Lottery/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/03/20200803_Lottery/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
+        <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>某个时间段内，对应奖品类别发放特定数量。</p>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>假如 10个奖品A，100个奖品B，1000个奖品C，在8点到16点时间内分发完，在8-16点时间按秒随机1110个不同时间点的数据，按从早到晚排序到中奖时间队列中，当某个用户参与中奖，如果中奖队列存在比当前时间早的，依次中奖，并按照剩余奖品类别个数依次做区间划分，如刚开始是1-10-110-1110，从1110随机取整数定位奖品编号。</p>
+<p>应用redis SortedSet有序集合类型，</p>
+<p><strong>ZADD key score member</strong></p>
+<p>score：时间戳，member:对应的奖品编号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZRANGE key start stop [WITHSCORES] 取第一位最小时间戳和当前抽奖时间比较，如果存在比当前时间小的数据，就代表有奖可领，对应的去做ZREM key member 操作，如果返回1，说明中奖成功，将对应的奖品</span><br></pre></td></tr></table></figure>
+
+<p>编号更新到数据库。</p>
+<p><img src="https://pic.downk.cc/item/5f27c03814195aa594e094aa.png"></p>
+<!-- flag of hidden posts -->
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-29T17:15:15+08:00"
-              content="2020-07-29">
-          07-29
-        </time>
-      </div>
+      <footer class="post-footer">
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/29/20200729_JVM/" itemprop="url">
-            <span itemprop="name">JVM调优及问题排查</span>
-          </a>
-      </div>
+        
 
-    </header>
+
+        
+      </footer>
+    
   </article>
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
 
         </div>
         
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
