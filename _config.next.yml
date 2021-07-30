@@ -1,0 +1,68 @@
+
+# Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+
+avatar:
+  url: https://pic.downk.cc/item/5f277a5a14195aa594cad4d0.jpg
+  # If true, the avatar will be dispalyed in circle.
+  rounded: true
+  # If true, the avatar will be rotated with the cursor.
+  rotated: false
+
+# Schemes
+#scheme: Muse
+#scheme: Mist
+scheme: Pisces
+#scheme: Gemini
+
+# Valine
+# For more information: https://valine.js.org, https://github.com/xCss/Valine
+valine:
+  enable: true
+  appId: 1kVszHAOMaqpz0p9HaUY4jS3-9Nh9j0Va
+  appKey: GKfDomM0s9bBI7BLr9K1iSvR
+  placeholder: Just go go # Comment box placeholder
+  avatar: mm # Gravatar style
+  meta: [nick, mail, link] # Custom comment header
+  pageSize: 10 # Pagination size
+  language: zh-cn # Language, available values: en, zh-cn
+  visitor: false # Article reading statistic
+  comment_count: true # If false, comment count will only be displayed in post page, not in home page
+  recordIP: false # Whether to record the commenter IP
+#  serverURLs: # When the custom domain name is enabled, fill it in here (it will be detected automatically by default, no need to fill in)
+  #post_meta_order: 0
+
+## Show number of visitors to each article.
+## You can visit https://leancloud.cn get AppID and AppKey.
+#leancloud_visitors:
+#  enable: true
+#  app_id: 1kVszHAOMaqpz0p9HaUY4jS3-9Nh9j0Va
+#  app_key: GKfDomM0s9bBI7BLr9K1iSvR
+
+# 菜单栏左右设置
+sidebar:
+  position: left
+
+# Show Views / Visitors of the website / page with busuanzi.
+# Get more information on http://ibruce.info/2015/04/04/busuanzi
+busuanzi_count:
+  enable: true
+  # 效果：本站访客数12345人次
+  site_uv: true
+  site_uv_header: 本站访客数
+  site_uv_footer: 人次
+  # 效果：本站总访问量12345次
+  site_pv: true
+  site_pv_header: 本站总访问量
+  site_pv_footer: 次
+  # 效果：本文总阅读量12345次
+  page_pv: true
+  page_pv_header: 本文总阅读量
+  page_pv_footer: 次
+#  total_visitors: true
+#  total_visitors_icon: fa fa-user
+#  total_views: true
+#  total_views_icon: fa fa-eye
+#  post_views: true
+#  post_views_icon: fa fa-eye
