@@ -18,3 +18,5 @@ hexo s == hexo server
 hexo d == hexo deploy
 ```
 
+## markdown
+[语法](https://www.markdown.xyz/basic-syntax/)
