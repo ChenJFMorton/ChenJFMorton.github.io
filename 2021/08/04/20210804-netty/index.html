@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false};
+  </script>
+
+  <meta name="description" content="NIO 三大核心：Channel(通道)、Buffer(缓冲区)、Selector(选择器)  原生NIO存在的问题 NIO的类库和API繁琐，使用麻烦：需要熟练掌握Selector、ServerSocketChannel、ServerSocket、ByteBuffer等。 需要具备其他的额外技能：要熟悉 Java 多线程编程，因为 NIO 编程涉及到 Reactor 模式，你必须对多线程和网络编">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Netty">
+<meta property="og:url" content="http://yoursite.com/2021/08/04/20210804-netty/index.html">
+<meta property="og:site_name" content="Chenjf&#39;s Blog">
+<meta property="og:description" content="NIO 三大核心：Channel(通道)、Buffer(缓冲区)、Selector(选择器)  原生NIO存在的问题 NIO的类库和API繁琐，使用麻烦：需要熟练掌握Selector、ServerSocketChannel、ServerSocket、ByteBuffer等。 需要具备其他的额外技能：要熟悉 Java 多线程编程，因为 NIO 编程涉及到 Reactor 模式，你必须对多线程和网络编">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/image/reactor.png">
+<meta property="og:image" content="http://yoursite.com/image/reactorSingleThread.png">
+<meta property="og:image" content="http://yoursite.com/image/reactor1.jpg">
+<meta property="og:image" content="http://yoursite.com/image/reactor2.jpg">
+<meta property="og:image" content="http://yoursite.com/image/netty.jpg">
+<meta property="article:published_time" content="2021-08-04T02:33:14.000Z">
+<meta property="article:modified_time" content="2021-12-02T03:04:31.730Z">
+<meta property="article:author" content="Chen Jianfeng">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/image/reactor.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/08/04/20210804-netty/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Netty | Chenjf's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Chenjf's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#NIO"><span class="nav-number">1.</span> <span class="nav-text">NIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%94%9FNIO%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">原生NIO存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">线程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95-Reactor-%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">单 Reactor 模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95-Reactor-%E5%8D%95%E7%BA%BF%E7%A8%8B"><span class="nav-number">3.2.</span> <span class="nav-text">单 Reactor 单线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95-Reactor-%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">3.3.</span> <span class="nav-text">单 Reactor 多线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E-Reactor-%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">3.4.</span> <span class="nav-text">主从 Reactor 多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">3.4.1.</span> <span class="nav-text">方案优缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Netty-%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">Netty 模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Protobuf"><span class="nav-number">5.</span> <span class="nav-text">Protobuf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Handler"><span class="nav-number">6.</span> <span class="nav-text">Handler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chen Jianfeng"
+      src="https://pic.downk.cc/item/5f277a5a14195aa594cad4d0.jpg">
+  <p class="site-author-name" itemprop="name">Chen Jianfeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/04/20210804-netty/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://pic.downk.cc/item/5f277a5a14195aa594cad4d0.jpg">
+      <meta itemprop="name" content="Chen Jianfeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chenjf's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Netty
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-04 10:33:14" itemprop="dateCreated datePublished" datetime="2021-08-04T10:33:14+08:00">2021-08-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-02 11:04:31" itemprop="dateModified" datetime="2021-12-02T11:04:31+08:00">2021-12-02</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/08/04/20210804-netty/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/08/04/20210804-netty/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h2><ol>
+<li>三大核心：Channel(通道)、Buffer(缓冲区)、Selector(选择器)</li>
+</ol>
+<h2 id="原生NIO存在的问题"><a href="#原生NIO存在的问题" class="headerlink" title="原生NIO存在的问题"></a>原生NIO存在的问题</h2><ol>
+<li>NIO的类库和API繁琐，使用麻烦：需要熟练掌握Selector、ServerSocketChannel、ServerSocket、ByteBuffer等。</li>
+<li>需要具备其他的额外技能：要熟悉 Java 多线程编程，因为 NIO 编程涉及到 Reactor 模式，你必须对多线程和网络编程非常熟悉，才能编写出高质量的 NIO 程序。</li>
+<li>开发工作量和难度都非常大：例如客户端面临断线重连、网络闪断、半包读写、失败缓存、网络堵塞和异常流的处理等等。</li>
+<li>JDK NIO 的 Bug：例如臭名昭著的 Epoll Bug，它会导致 Selector 空轮询，最终导致 CPU 100%。直到 JDK 1.7 版本该问题仍旧存在，没有被根本解决。</li>
+</ol>
+<h2 id="线程模型"><a href="#线程模型" class="headerlink" title="线程模型"></a>线程模型</h2><h3 id="单-Reactor-模式"><a href="#单-Reactor-模式" class="headerlink" title="单 Reactor 模式"></a>单 Reactor 模式</h3><p><img src="/image/reactor.png"></p>
+<h3 id="单-Reactor-单线程"><a href="#单-Reactor-单线程" class="headerlink" title="单 Reactor 单线程"></a>单 Reactor 单线程</h3><p><img src="/image/reactorSingleThread.png" alt="NIO 群聊"></p>
+<h3 id="单-Reactor-多线程"><a href="#单-Reactor-多线程" class="headerlink" title="单 Reactor 多线程"></a>单 Reactor 多线程</h3><p><img src="/image/reactor1.jpg"><br>优点：可以充分的利用多核cpu的处理能力。<br>缺点：多线程数据共享和访问比较复杂，reactor 处理所有的事件的监听和响应，在单线程运行，在高并发场景容易出现性能瓶颈。</p>
+<h3 id="主从-Reactor-多线程"><a href="#主从-Reactor-多线程" class="headerlink" title="主从 Reactor 多线程"></a>主从 Reactor 多线程</h3><p><img src="/image/reactor2.jpg"></p>
+<ol>
+<li>Reactor 主线程 MainReactor 对象通过 select 监听链接事件，收到时间后，通过 Acceptor 处理链接事件。</li>
+<li>当 Acceptor 处理链接事件后，MainReactor 将连接分配给 SubReactor.</li>
+<li>subreactor 将连接加入到连接队列进行监听，并创建 handler 进行各种事件处理。</li>
+<li>当有新事件发生时，subreactor 就会调用对应的 handler 处理。</li>
+<li>handler 通过 read 读取数据，分发给后面的 worker 线程处理。</li>
+<li>worker 线程池分配独立的 worker 线程进行业务处理，并返回结果。</li>
+<li>handler 收到响应的结果后，再通过 send 将结果返回给client。</li>
+<li><strong>Reactor 主线程可以对应多个 Reactor 子线程，即 MainReactor 可以关联多个 subreactor</strong></li>
+</ol>
+<h4 id="方案优缺点"><a href="#方案优缺点" class="headerlink" title="方案优缺点"></a>方案优缺点</h4><p>优点：</p>
+<ol>
+<li>父线程与子线程的数据交互简单职责明确，父线程只需要接收新连接，子线程完成后续的业务处理。</li>
+<li>父线程与子线程的数据交互简单，Reactor 主线程只需要把新连接传给子线程，子线程无需返回数据。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>编程复杂度较高</li>
+</ol>
+<p>结合实例：这种模型在许多项目中广泛使用，包括 Nginx 主从 Reactor 多进程模型，Memcached 主从多线程，Netty 主从多线程模型的支持。</p>
+<p><a target="_blank" rel="noopener" href="http://gee.cs.oswego.edu/dl/cpjslides/nio.pdf">Scalable IO in Java</a> 书中作者 <a target="_blank" rel="noopener" href="https://zh.wikiqube.net/wiki/Doug_Lea">Doug Lea</a> 对 Reactor 模型的理解</p>
+<h2 id="Netty-模型"><a href="#Netty-模型" class="headerlink" title="Netty 模型"></a>Netty 模型</h2><p><img src="/image/netty.jpg" alt="工作原理示意图"><br>工作原理示意图-解析</p>
+<ol>
+<li>Netty抽象出两组线程池BossGroup专门负责接收客户端的连接，WorkerGroup专门负责网络的读写。</li>
+<li>BossGroup和WorkerGroup类型都是NioEventLoopGroup</li>
+<li>NioEventLoopGroup相当于一个事件循环组，这个组中含有多个事件循环，每个事件循环是NioEventLoop</li>
+<li>NioEventLoop 表示一个不断循环的执行处理任务的线程，每个NioEventLoop都有一个selector，用于监听绑定在其上的socket的网络通讯</li>
+<li>NioEventLoopGroup 可以有多个线程，即可以含有多个NioEventLoop</li>
+<li>每个Boss NioEventLoop 执行的步骤有3步：<ol>
+<li>轮询accept事件</li>
+<li>处理accept事件，与client建立连接，生成 NioSocketChannel，并将其注册到某个worker NIOEventLoop 上的selector</li>
+<li>处理任务队列的任务，即 runAllTasks</li>
+</ol>
+</li>
+<li>每个Worker NIOEventLoop 循环执行的步骤<ol>
+<li>轮询read,write事件</li>
+<li>处理i/o事件，即read,write事件，在对应 NioSocketChannel 处理</li>
+<li>处理任务队列的任务，即 runAllTasks</li>
+</ol>
+</li>
+<li>每个Worker NIOEventLoop 处理业务时，会使用pipeline（管道），pipeline 中包含了 channel，即通过pipeline 可以获取到对应通道，管道中维护了很多的处理器。</li>
+</ol>
+<h2 id="Protobuf"><a href="#Protobuf" class="headerlink" title="Protobuf"></a>Protobuf</h2><p>http + json -&gt; tcp + protobuf<br>Protobuf优点：</p>
+<ol>
+<li>序列化后体积相比Json和XML很小，适合网络传输</li>
+<li>支持跨平台多语言</li>
+<li>消息格式升级和兼容性还不错</li>
+<li>序列化反序列化速度很快，快于Json的处理速速</li>
+</ol>
+<p>Protobuf缺点：</p>
+<ol>
+<li>二进制格式导致可读性差</li>
+<li>缺乏自描述</li>
+<li>通用性差</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a24c88c0526a">文档</a></p>
+<h2 id="Handler"><a href="#Handler" class="headerlink" title="Handler"></a>Handler</h2><ol>
+<li>不论解码器handler还是编码器handler，接收的消息类型必须与待处理的消息类型一致，否则该handler不会被执行</li>
+<li>在解码器进行数据解码时，需要判断缓存区（ByteBuf）的数据是否足够，否则接收到的结果与期望结果可能不一致</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://developers.google.com/protocol-buffers/docs/proto">语言指南</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="D:\BaiduNetdiskDownload\尚硅谷Netty学习资料">课件</a><br><a target="_blank" rel="noopener" href="https://dongzl.github.io/netty-handbook/#/">笔记</a><br><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1754078">https://cloud.tencent.com/developer/article/1754078</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/24/20210723_DApp/" rel="prev" title="DApp">
+      <i class="fa fa-chevron-left"></i> DApp
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/28/20210828-IDEA/" rel="next" title="2021082828_IDEA">
+      2021082828_IDEA <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Jianfeng</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"1kVszHAOMaqpz0p9HaUY4jS3-9Nh9j0Va","appKey":"GKfDomM0s9bBI7BLr9K1iSvR","placeholder":"Just go go","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"language":"zh-cn","visitor":false,"comment_count":true,"recordIP":false,"serverURLs":null}
+    ));
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

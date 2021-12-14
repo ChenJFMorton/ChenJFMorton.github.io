@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false};
+  </script>
+
+  <meta name="description" content="概要本文主要介绍如何通过浏览器WEB使用websocket、protobuf协议与netty服务端通信。主要涉及到的技术点：js、websocket、java、netty、protobuf，下面会详细介绍如何使用。 前端主要涉及到四个文件，看截图，完成这些，客户端这边就OK了。 ptoto文件 SubscribeReq.proto，用于发送到服务端：123456789syntax&#x3D;&quot;pr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浏览器使用websocket通过protobuf协议与netty服务端通信">
+<meta property="og:url" content="http://yoursite.com/2021/12/09/20211209-protobufUseInGame/index.html">
+<meta property="og:site_name" content="Chenjf&#39;s Blog">
+<meta property="og:description" content="概要本文主要介绍如何通过浏览器WEB使用websocket、protobuf协议与netty服务端通信。主要涉及到的技术点：js、websocket、java、netty、protobuf，下面会详细介绍如何使用。 前端主要涉及到四个文件，看截图，完成这些，客户端这边就OK了。 ptoto文件 SubscribeReq.proto，用于发送到服务端：123456789syntax&#x3D;&quot;pr">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/image/protoClientDemo.png">
+<meta property="og:image" content="http://yoursite.com/image/protoJsFile.png">
+<meta property="og:image" content="http://yoursite.com/image/protoServerDemo.png">
+<meta property="article:published_time" content="2021-12-09T02:39:30.000Z">
+<meta property="article:modified_time" content="2021-12-14T07:34:56.651Z">
+<meta property="article:author" content="Chen Jianfeng">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="Protobuf">
+<meta property="article:tag" content="Netty">
+<meta property="article:tag" content="websocket">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/image/protoClientDemo.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/12/09/20211209-protobufUseInGame/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>浏览器使用websocket通过protobuf协议与netty服务端通信 | Chenjf's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Chenjf's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF"><span class="nav-number">2.</span> <span class="nav-text">前端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ptoto%E6%96%87%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">ptoto文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#protobuf-min-js"><span class="nav-number">2.2.</span> <span class="nav-text">protobuf.min.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#html%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">2.3.</span> <span class="nav-text">html客户端</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E7%AB%AF"><span class="nav-number">3.</span> <span class="nav-text">后端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ptoto%E6%96%87%E4%BB%B6-1"><span class="nav-number">3.1.</span> <span class="nav-text">ptoto文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E5%8C%85%E5%BC%95%E7%94%A8"><span class="nav-number">3.2.</span> <span class="nav-text">依赖包引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#netty%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="nav-number">3.3.</span> <span class="nav-text">netty服务端</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E8%B0%83%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">启动调试</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chen Jianfeng"
+      src="https://pic.downk.cc/item/5f277a5a14195aa594cad4d0.jpg">
+  <p class="site-author-name" itemprop="name">Chen Jianfeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/12/09/20211209-protobufUseInGame/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://pic.downk.cc/item/5f277a5a14195aa594cad4d0.jpg">
+      <meta itemprop="name" content="Chen Jianfeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chenjf's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          浏览器使用websocket通过protobuf协议与netty服务端通信
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-09 10:39:30" itemprop="dateCreated datePublished" datetime="2021-12-09T10:39:30+08:00">2021-12-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-14 15:34:56" itemprop="dateModified" datetime="2021-12-14T15:34:56+08:00">2021-12-14</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/09/20211209-protobufUseInGame/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/09/20211209-protobufUseInGame/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>本文主要介绍如何通过浏览器WEB使用websocket、protobuf协议与netty服务端通信。<br>主要涉及到的技术点：js、websocket、java、netty、protobuf，下面会详细介绍如何使用。</p>
+<h2 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h2><p>主要涉及到四个文件，看截图，完成这些，客户端这边就OK了。<br><img src="/image/protoClientDemo.png"></p>
+<h3 id="ptoto文件"><a href="#ptoto文件" class="headerlink" title="ptoto文件"></a>ptoto文件</h3><ol>
+<li>SubscribeReq.proto，用于发送到服务端：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">syntax=&quot;proto3&quot;;</span><br><span class="line">package req;</span><br><span class="line"></span><br><span class="line">message SubscribeReq &#123;</span><br><span class="line">  int32 subReqId = 1;</span><br><span class="line">  string userName = 2;</span><br><span class="line">  string productName = 3;</span><br><span class="line">  string address = 4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>SubscribeResp.proto，用于解析服务端发送过来的消息：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">syntax=&quot;proto3&quot;;</span><br><span class="line">package res;</span><br><span class="line"></span><br><span class="line">message SubscribeResp&#123;</span><br><span class="line">  int32 subReqId = 1;</span><br><span class="line">  int32 respCode = 2;</span><br><span class="line">  string desc = 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+注：package对应客户端中的代码root.lookupType(className)，className:#{package}.#{message}</li>
+</ol>
+<h3 id="protobuf-min-js"><a href="#protobuf-min-js" class="headerlink" title="protobuf.min.js"></a>protobuf.min.js</h3><p><a target="_blank" rel="noopener" href="https://github.com/protobufjs/protobuf.js/releases">protobuf.min.js</a>下载地址</p>
+<ol>
+<li>下载<br>选择最近版本zip下载</li>
+<li>解压，获取目标文件<br>protobuf.min.js文件在解压后dist目录下，如图：<br><img src="/image/protoJsFile.png"></li>
+<li>放到html同级目录，并在html中引用</li>
+</ol>
+<h3 id="html客户端"><a href="#html客户端" class="headerlink" title="html客户端"></a>html客户端</h3><p>TestProtobuf.html：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;script src=&quot;protobuf.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;button onclick=&quot;sendMsg()&quot;&gt;手动发送&lt;/button&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    let buffer;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 手动发送消息</span><br><span class="line">     */</span><br><span class="line">    function sendMsg()&#123;</span><br><span class="line">        let payload = &#123;subReqId: 1, userName: &quot;cjf&quot;, productName: &quot;hello server 我是客户端   111 !!&quot;, address:&quot;地址&quot;&#125;;</span><br><span class="line">        let message = reqMessage.create(payload); // or use .fromObject if conversion is necessary</span><br><span class="line">        buffer = reqMessage.encode(message).finish();</span><br><span class="line">        webSocket.send(buffer);</span><br><span class="line">    &#125;</span><br><span class="line">    // 客户端请求对象</span><br><span class="line">    let reqMessage;</span><br><span class="line">    // 服务端返回对象</span><br><span class="line">    let resMessage;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 初始化 reqMessage</span><br><span class="line">     * @param fileName</span><br><span class="line">     * @param className</span><br><span class="line">     * @param type 1:request,2:response</span><br><span class="line">     */</span><br><span class="line">    function initCusMsg(fileName, className, type) &#123;</span><br><span class="line"></span><br><span class="line">        return protobuf.load(fileName)</span><br><span class="line">            .then((root) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">                if (type === 1) &#123;</span><br><span class="line">                    reqMessage = root.lookupType(className);</span><br><span class="line">                    return reqMessage;</span><br><span class="line">                &#125; else if (type === 2) &#123;</span><br><span class="line">                    resMessage = root.lookupType(className);</span><br><span class="line">                    return resMessage;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const address = &quot;ws://127.0.0.1:9999/ws&quot;;</span><br><span class="line"></span><br><span class="line">    let webSocket = new WebSocket(address);</span><br><span class="line"></span><br><span class="line">    webSocket.onopen = function () &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        console.log(&quot;webSocket连接建立成功... &quot; + &quot;服务端address: &quot; + address);</span><br><span class="line">        //连接成功 发送消息</span><br><span class="line"></span><br><span class="line">        let reqMsgPromise = initCusMsg(&quot;SubscribeReq.proto&quot;, &quot;req.SubscribeReq&quot;, 1);</span><br><span class="line"></span><br><span class="line">        reqMsgPromise.then((cusMsg) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">            //参考 https://github.com/protobufjs/protobuf.js#using-proto-files</span><br><span class="line"></span><br><span class="line">            // Exemplary payload</span><br><span class="line">            let cuTime = new Date().getTime();</span><br><span class="line">            let payload = &#123;</span><br><span class="line">                subReqId: 1, userName: &quot;cjf&quot;, productName: &quot;hello server 我是客户端 2222!!&quot;, address:&quot;地址&quot;&#125;;</span><br><span class="line">            // Verify the payload if necessary (i.e. when possibly incomplete or invalid)</span><br><span class="line">            let errMsg = cusMsg.verify(payload);</span><br><span class="line">            if (errMsg) &#123;</span><br><span class="line"></span><br><span class="line">                throw Error(errMsg);</span><br><span class="line">            &#125;</span><br><span class="line">            // Create a new message</span><br><span class="line">            let message = cusMsg.create(payload); // or use .fromObject if conversion is necessary</span><br><span class="line">            // Encode a message to an Uint8Array (browser) or Buffer (node)</span><br><span class="line">            buffer = cusMsg.encode(message).finish();</span><br><span class="line"></span><br><span class="line">            webSocket.send(buffer);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    //接收消息</span><br><span class="line">    let reader = new FileReader();</span><br><span class="line">    //监听服务端响应消息</span><br><span class="line">    webSocket.onmessage = function (event) &#123;</span><br><span class="line">        let resMsgPromise = initCusMsg(&quot;SubscribeResp.proto&quot;, &quot;res.SubscribeResp&quot;, 2);</span><br><span class="line"></span><br><span class="line">        resMsgPromise.then((cusMsg) =&gt; &#123;</span><br><span class="line">            reader.readAsArrayBuffer(event.data);</span><br><span class="line">            reader.onload = () =&gt; &#123;</span><br><span class="line"></span><br><span class="line">                let arrayBuffer = reader.result;</span><br><span class="line">                let buffer = new Uint8Array(arrayBuffer);</span><br><span class="line"></span><br><span class="line">                let resObject = resMessage.decode(buffer);</span><br><span class="line">                let errMsg = cusMsg.verify(resObject);</span><br><span class="line">                if (errMsg) &#123;</span><br><span class="line"></span><br><span class="line">                    throw Error(errMsg);</span><br><span class="line">                &#125;</span><br><span class="line">                console.log(resObject)</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h2><p>主要涉及到几个文件，看截图，完成这些，服务端这边就OK了。<br><img src="/image/protoServerDemo.png"></p>
+<h3 id="ptoto文件-1"><a href="#ptoto文件-1" class="headerlink" title="ptoto文件"></a>ptoto文件</h3><ol>
+<li><p>SubscribeReq.proto：定义解析客户端发过来的数据格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">syntax=&quot;proto3&quot;;</span><br><span class="line">option java_package = &quot;com.gate.protobuf&quot;;</span><br><span class="line">option java_outer_classname = &quot;SubscribeReqProto&quot;;</span><br><span class="line"></span><br><span class="line">message SubscribeReq &#123;</span><br><span class="line">  int32 subReqId = 1;</span><br><span class="line">  string userName = 2;</span><br><span class="line">  string productName = 3;</span><br><span class="line">  string address = 4;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>SubscribeResp.proto：定义发送到客户端的数据格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">syntax=&quot;proto3&quot;;</span><br><span class="line">option java_package = &quot;com.gate.protobuf&quot;;</span><br><span class="line">option java_outer_classname=&quot;SubscribeRespProto&quot;;</span><br><span class="line"></span><br><span class="line">message SubscribeResp&#123;</span><br><span class="line">  required int32 subReqId = 1;</span><br><span class="line">  required int32 respCode = 2;</span><br><span class="line">  required string desc = 3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载<a target="_blank" rel="noopener" href="https://github.com/protocolbuffers/protobuf/releases">protobuf-java-3.19.1.zip</a>，解压后可以配置下全局命令执行。</p>
+</li>
+<li><p>生成java文件<br>执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">protoc --java_out=./ SubscribeReq.proto</span><br><span class="line">protoc --java_out=./ SubscribeResp.proto</span><br></pre></td></tr></table></figure>
+<p>生成SubscribeReqProto.java、SubscribeRespProto.java</p>
+</li>
+</ol>
+<p>注：java_package路径对应生成的java包路径， java_outer_classname对应生成的java文件名</p>
+<h3 id="依赖包引用"><a href="#依赖包引用" class="headerlink" title="依赖包引用"></a>依赖包引用</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.google.protobuf&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;protobuf-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.19.1&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注：protobuf-java的版本要对应protoc的版本</p>
+<h3 id="netty服务端"><a href="#netty服务端" class="headerlink" title="netty服务端"></a>netty服务端</h3><p>Server.java代码:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class Server &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 自定义ChannelInitializer</span><br><span class="line">     */</span><br><span class="line">    public void start() &#123;</span><br><span class="line">        short port = 9999;</span><br><span class="line">        ServerBootstrap serverBootstrap = new ServerBootstrap();</span><br><span class="line">        NioEventLoopGroup boos = new NioEventLoopGroup();</span><br><span class="line">        NioEventLoopGroup worker = new NioEventLoopGroup();</span><br><span class="line">        serverBootstrap.group(boos, worker);</span><br><span class="line">        serverBootstrap.channel(NioServerSocketChannel.class);</span><br><span class="line">        serverBootstrap.childHandler(new CustomChannelInitializer());</span><br><span class="line">        try &#123;</span><br><span class="line">            Channel channel = serverBootstrap.bind(port).sync().channel();</span><br><span class="line">            System.out.println(&quot;服务端启动 端口:&quot; + port);</span><br><span class="line">            channel.closeFuture().await();</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        new Server().start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>CustomChannelInitializer.java代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public class CustomChannelInitializer  extends ChannelInitializer&lt;SocketChannel&gt; &#123;</span><br><span class="line">    @Override</span><br><span class="line">    protected void initChannel(SocketChannel socketChannel) &#123;</span><br><span class="line">        ChannelPipeline pipeline = socketChannel.pipeline();</span><br><span class="line"></span><br><span class="line">        pipeline.addLast(new HttpServerCodec());</span><br><span class="line">        pipeline.addLast(new ChunkedWriteHandler());</span><br><span class="line">        pipeline.addLast(new HttpObjectAggregator(1024 * 64));</span><br><span class="line"></span><br><span class="line">        pipeline.addLast(new WebSocketServerProtocolHandler(&quot;/ws&quot;));</span><br><span class="line"></span><br><span class="line">        //将WebSocketFrame转为ByteBuf 以便后面的 ProtobufDecoder 解码</span><br><span class="line">        pipeline.addLast(new MessageToMessageDecoder&lt;WebSocketFrame&gt;() &#123;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            protected void decode(ChannelHandlerContext ctx, WebSocketFrame frame, List&lt;Object&gt; out) throws Exception &#123;</span><br><span class="line"></span><br><span class="line">                ByteBuf byteBuf = frame.content();</span><br><span class="line">                byteBuf.retain();</span><br><span class="line">                out.add(byteBuf);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        pipeline.addLast(new ProtobufDecoder(SubscribeReqProto.SubscribeReq.getDefaultInstance()));</span><br><span class="line">        //自定义入站处理</span><br><span class="line">        pipeline.addLast(new TestProtoBufInboundHandler());</span><br><span class="line"></span><br><span class="line">        //出站处理 将protoBuf实例转为WebSocketFrame</span><br><span class="line">        pipeline.addLast(new ProtobufEncoder() &#123;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            protected void encode(ChannelHandlerContext ctx, MessageLiteOrBuilder msg, List&lt;Object&gt; out) throws Exception &#123;</span><br><span class="line"></span><br><span class="line">                SubscribeRespProto.SubscribeResp mpMsg = (SubscribeRespProto.SubscribeResp) msg;</span><br><span class="line">                WebSocketFrame frame = new BinaryWebSocketFrame(Unpooled.wrappedBuffer(mpMsg.toByteArray()));</span><br><span class="line">                out.add(frame);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>TestProtoBufInboundHandler.java代码:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public class TestProtoBufInboundHandler extends SimpleChannelInboundHandler&lt;SubscribeReqProto.SubscribeReq&gt; &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void channelRead0(ChannelHandlerContext ctx, SubscribeReqProto.SubscribeReq msg) throws Exception &#123;</span><br><span class="line">        Gson gson = new Gson();</span><br><span class="line">        System.out.printf(&quot;服务端收到请求数据：%s&quot;, gson.toJson(msg));</span><br><span class="line"></span><br><span class="line">        //响应消息</span><br><span class="line">        SubscribeRespProto.SubscribeResp.Builder builder = SubscribeRespProto.SubscribeResp.newBuilder();</span><br><span class="line">        builder.setRespCode(200);</span><br><span class="line">        builder.setSubReqId(1);</span><br><span class="line">        builder.setDesc(&quot;success receive!&quot;);</span><br><span class="line">        SubscribeRespProto.SubscribeResp build = builder.build();</span><br><span class="line"></span><br><span class="line">        ctx.channel().writeAndFlush(build);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void channelReadComplete(ChannelHandlerContext ctx) &#123;</span><br><span class="line">        ctx.flush();//将消息从发送缓冲区中写入socketchannel中</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) &#123;</span><br><span class="line">        ctx.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动调试"><a href="#启动调试" class="headerlink" title="启动调试"></a>启动调试</h2><p>完成以上操作、配置后，就可以先启动Server.java，再打开TestProtobuf.html，进行调试了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/Protobuf/" rel="tag"># Protobuf</a>
+              <a href="/tags/Netty/" rel="tag"># Netty</a>
+              <a href="/tags/websocket/" rel="tag"># websocket</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/08/20211108-springRely/" rel="prev" title="spring如何在普通类里面进行依赖注入">
+      <i class="fa fa-chevron-left"></i> spring如何在普通类里面进行依赖注入
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Jianfeng</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"1kVszHAOMaqpz0p9HaUY4jS3-9Nh9j0Va","appKey":"GKfDomM0s9bBI7BLr9K1iSvR","placeholder":"Just go go","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"language":"zh-cn","visitor":false,"comment_count":true,"recordIP":false,"serverURLs":null}
+    ));
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
