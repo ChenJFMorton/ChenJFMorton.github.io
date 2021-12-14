@@ -1,5 +1,5 @@
 ---
-title: 20211108_replaceIfElse
+title: Java中if else替代方案
 date: 2021-11-08 14:13:40
 tags:
 - java 
