@@ -1412,7 +1412,7 @@ networks增加配置<figure class="highlight plaintext"><table><tr><td class="gu
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-30 14:07:49" itemprop="dateModified" datetime="2021-07-30T14:07:49+08:00">2021-07-30</time>
+                <time title="修改时间：2022-08-18 10:06:31" itemprop="dateModified" datetime="2022-08-18T10:06:31+08:00">2022-08-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1714,8 +1714,8 @@ networks增加配置<figure class="highlight plaintext"><table><tr><td class="gu
 </tr>
 </tbody></table>
 <h2 id="JVM如何调优"><a href="#JVM如何调优" class="headerlink" title="JVM如何调优"></a>JVM如何调优</h2><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><p>​    第1步：分析GC日志（详见参考四、五）及dump文件，判断是否需要优化，确定瓶颈问题点；</p>
-<p>​    第2步：确定JVM调优量化目标；</p>
-<p>​    第3步：确定JVM调优参数（根据历史JVM参数来调整）；</p>
+<p> 第2步：确定JVM调优量化目标；</p>
+<p>​    第3步：确定JVM调优参数（根据历史JVM参数来调整）；<br>  调优步骤：<br>    1、确定老年代内存占用大小，使用以下命令, concurrent mark-sweep generation项对应的used就是老年代的内存占用<br>    <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -heap 【pid】</span><br></pre></td></tr></table></figure><br>    2、设置堆内存大小，-Xms、-Xmx，建议-Xms=-Xmx，Xmx 和 Xms设置为老年代存活对象的3-4倍，即FullGC之后的老年代内存占用的3-4倍，参考<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1695047"><font color="red">Xms和Xmx参数设置为相同值好处</font></a><br>    3、设置年轻代内存大小，-Xmn，建议整个堆3/8<br>    4、设置元空间大小，-XX:MetaspaceSize、-XX:MaxMetaspaceSize，建议MetaspaceSize和MaxMetaspaceSize设置一样大，具体设置多大，建议稳定运行一段时间后通过jstat -gc pid确认且这个值大一些，对于大部分项目256m即可，参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b448c21d2e71"><font color="red">MetaspaceSize的误解</font></a>，<a target="_blank" rel="noopener" href="http://lovestblog.cn/blog/2016/10/29/metaspace/"><font color="red">Metaspace解密</font></a></p>
 <p>​    第4步：调优一台服务器，对比观察调优前后的差异；</p>
 <p>​    第5步：不断的分析和调整，直到找到合适的JVM参数配置；</p>
 <p>​    第6步：找到最合适的参数，将这些参数应用到所有服务器，并进行后续跟踪。</p>
