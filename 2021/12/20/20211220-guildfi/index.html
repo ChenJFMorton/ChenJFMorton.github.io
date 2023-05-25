@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false};
+  </script>
+
+  <meta name="description" content="今年链游的数量和玩家人数都有了大规模的增长，来自DappRadar的一份报告显示，10月份平均每天有超过100万个独立的活跃钱包地址连接到链游app中，而资本市场当月更有1.2亿美金投入链游相关的平台项目中。  一方是玩家大量的涌入链游，另一方则是链游项目在资本的助推下不断涌现。 这时候连接的价值日益显现：比如YGG等公会的出现，连接了游戏和玩家两方，通过游戏道具的租借和专业的培训，使玩家进场成本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="链游平台GuildFi调研分析">
+<meta property="og:url" content="http://yoursite.com/2021/12/20/20211220-guildfi/index.html">
+<meta property="og:site_name" content="Chenjf&#39;s Blog">
+<meta property="og:description" content="今年链游的数量和玩家人数都有了大规模的增长，来自DappRadar的一份报告显示，10月份平均每天有超过100万个独立的活跃钱包地址连接到链游app中，而资本市场当月更有1.2亿美金投入链游相关的平台项目中。  一方是玩家大量的涌入链游，另一方则是链游项目在资本的助推下不断涌现。 这时候连接的价值日益显现：比如YGG等公会的出现，连接了游戏和玩家两方，通过游戏道具的租借和专业的培训，使玩家进场成本">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-15.png">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi.png">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-1.jpg">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-3.jpg">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-overview.jpg">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-8.png">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-guild-discovery.png">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-4.jpg">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-9.png">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-5.jpg">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-10.png">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-6.jpg">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-11.png">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-7.jpg">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-12.png">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-13.png">
+<meta property="og:image" content="http://yoursite.com/image/guildfi/guildfi-14.png">
+<meta property="article:published_time" content="2021-12-20T03:18:43.000Z">
+<meta property="article:modified_time" content="2022-01-25T06:04:45.268Z">
+<meta property="article:author" content="Chen Jianfeng">
+<meta property="article:tag" content="链游">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/image/guildfi/guildfi-15.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/12/20/20211220-guildfi/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>链游平台GuildFi调研分析 | Chenjf's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Chenjf's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GuildFi%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.</span> <span class="nav-text">GuildFi是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%A5%E8%A1%A5%E9%93%BE%E6%B8%B8%E5%B8%82%E5%9C%BA%E9%9C%80%E6%B1%82%E5%92%8C%E7%8E%B0%E5%AE%9E%E7%9A%84%E5%B7%AE%E8%B7%9D"><span class="nav-number">1.1.</span> <span class="nav-text">弥补链游市场需求和现实的差距</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GuildFi-%E8%BF%9E%E6%8E%A5%E9%93%BE%E6%B8%B8%E5%B8%82%E5%9C%BA%E5%90%84%E5%8F%82%E4%B8%8E%E6%96%B9%E7%9A%84%E5%A4%9A%E5%8A%9F%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%B9%B3%E5%8F%B0"><span class="nav-number">1.2.</span> <span class="nav-text">GuildFi: 连接链游市场各参与方的多功能服务平台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GuildFi%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%9D%A2%EF%BC%9A%E4%BC%98%E7%A7%80%E8%B5%84%E6%96%B9%E5%8A%A0%E6%8C%81-%E4%B8%B0%E5%AF%8C%E7%9A%84%E5%85%AC%E4%BC%9A%E7%BB%8F%E9%AA%8C"><span class="nav-number">1.3.</span> <span class="nav-text">GuildFi的基本面：优秀资方加持+丰富的公会经验</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GF%E9%80%9A%E8%AF%81%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">GF通证介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GuildFi%E7%9A%84%E6%BD%9C%E5%8A%9B%E5%92%8C%E9%A3%8E%E9%99%A9"><span class="nav-number">3.</span> <span class="nav-text">GuildFi的潜力和风险</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chen Jianfeng"
+      src="https://pic.downk.cc/item/5f277a5a14195aa594cad4d0.jpg">
+  <p class="site-author-name" itemprop="name">Chen Jianfeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/12/20/20211220-guildfi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://pic.downk.cc/item/5f277a5a14195aa594cad4d0.jpg">
+      <meta itemprop="name" content="Chen Jianfeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chenjf's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          链游平台GuildFi调研分析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-20 11:18:43" itemprop="dateCreated datePublished" datetime="2021-12-20T11:18:43+08:00">2021-12-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-25 14:04:45" itemprop="dateModified" datetime="2022-01-25T14:04:45+08:00">2022-01-25</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/20/20211220-guildfi/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/20/20211220-guildfi/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今年链游的数量和玩家人数都有了大规模的增长，<br>来自DappRadar的一份<a target="_blank" rel="noopener" href="https://dappradar.com/blog/bga-blockchain-game-report-october-2021">报告</a>显示，<br>10月份平均每天有超过100万个独立的活跃钱包地址连接到链游app中，<br>而资本市场当月更有1.2亿美金投入链游相关的平台项目中。</p>
+<p><img src="/image/guildfi/guildfi-15.png"></p>
+<p>一方是玩家大量的涌入链游，另一方则是链游项目在资本的助推下不断涌现。</p>
+<p>这时候连接的价值日益显现：<br>比如YGG等公会的出现，连接了游戏和玩家两方，<br>通过游戏道具的租借和专业的培训，<br>使玩家进场成本更低收益更高，也使游戏方获得了更多的用户。<br>而当游戏越来越多，单一公会其实无法带领玩家触达每一个链游，<br>各类公会就出现分而治之的局面，各自招募玩家奔向不同的链游。</p>
+<p>这时候，就出现了一种平台的机会，<br>能够连接所有的玩家，链游和不同的游戏公会，<br>给它们一个互相发现、互相匹配并获取收益的渠道。<br>今天我们要讲的<a target="_blank" rel="noopener" href="https://guildfi.com/">GuildFi</a>就是这样一个平台，<br>专注于与玩家、游戏和公会之间的连接。</p>
+<p><img src="/image/guildfi/guildfi.png"></p>
+<h2 id="GuildFi是什么"><a href="#GuildFi是什么" class="headerlink" title="GuildFi是什么"></a>GuildFi是什么</h2><h3 id="弥补链游市场需求和现实的差距"><a href="#弥补链游市场需求和现实的差距" class="headerlink" title="弥补链游市场需求和现实的差距"></a>弥补链游市场需求和现实的差距</h3><p>在介绍GuildFi之前，我们不妨先看看目前链游市场上的参与者和他们的需求。</p>
+<ol>
+<li>玩家：需要低成本的寻找+进入更多收益高的游戏，并把游戏中投入的时间价值最大化；</li>
+<li>游戏：需要低成本且广泛的吸引玩家参与；</li>
+<li>公会：需要快速创建公会并招募玩家参与，并需要找到更多值得入驻的游戏。</li>
+</ol>
+<p><img src="/image/guildfi/guildfi-1.jpg"></p>
+<p>而在目前的链游市场中，现实情况并不能完全满足他们的需求：</p>
+<ol>
+<li>玩家：零散的寻找要进入的游戏，支付高额进场费用，研究打金攻略，投入产出比不稳定；</li>
+<li>游戏：多渠道通过广告、运营活动和社交媒体进行营销和获客，存在投放宣传成本；</li>
+<li>公会：各自创建公会并找寻玩家，创建公会需要大量启动资金，且寻找玩家成本高</li>
+</ol>
+<p><img src="/image/guildfi/guildfi-3.jpg"></p>
+<p><strong>可以明显的看出，三类角色的需求和现实情况仍存在着差距</strong>，<br>因此目前的链游市场其实可以构建一个平台来连接玩家、游戏和公会，<br>并解决他们在现实情况中遇到的问题。</p>
+<h3 id="GuildFi-连接链游市场各参与方的多功能服务平台"><a href="#GuildFi-连接链游市场各参与方的多功能服务平台" class="headerlink" title="GuildFi: 连接链游市场各参与方的多功能服务平台"></a>GuildFi: 连接链游市场各参与方的多功能服务平台</h3><p>GuildFi的目标是努力缩小现在链游市场上各参与者的需求和现实差距，<br>其实现手段则是为玩家、游戏和公会提供各自急缺的服务，<br>并作为一个平台将服务资源在三者之间共享，以达到相互发现，提升效率的目的。<br>总体来看，<strong>GuildFi提供了四大服务：游戏平台、公会专区、NFT专区、工具专区</strong>，</p>
+<p><img src="/image/guildfi/guildfi-overview.jpg"></p>
+<p>每一个服务中又细分成了不同的功能模块。<br>考虑到GuildFi中的模块较多，单纯的介绍功能未必能完全理解它的设计用意，<br>我们仍然接着上面玩家、游戏和公会各自遇到的问题来讲解GuildFi的功能设计，<br>看看它是如何对症下药来解决问题的。</p>
+<p><strong>1.玩家：通过「发现游戏」和「发现公会」功能，降低游戏寻找成本和进场成本</strong><br>在GuildFi的游戏平台功能中，有2个叫做发现「游戏发现」和「发现公会」的功能。<br>在游戏发现方面：<br>即平台会列出目前值得参与的游戏列表，<br>并提供该游戏的基础信息和相关的数据分析。<br>对于数据分析功能，目前官网显示功能即将上线，<br>但我们可以猜测，这类分析一定与游戏活跃用户数、投入产出比等信息相关，<br>借此来为玩家提供是否参与游戏的判断依据。</p>
+<p>在游戏方面，官网上目前支持的游戏仅有2款，分别是Cyball和Axie，<br>而在官方的白皮书中我们则看到了另外两款引人关注的作品也将整合进入GuildFi：<br>Sandbox和Star Atlas。</p>
+<p><img src="/image/guildfi/guildfi-8.png"></p>
+<p>这几款游戏的号召力不必多提，前期选入游戏发现列表中也是GuildFi吸引用户的举措，<br>但能够争取到这几款游戏加入，足见GuildFi在链游领域的资源。</p>
+<p>对于另外一个名为「公会发现」的功能，其实不难理解，<br>当链游市场上有很多公会时，玩家可能不知道加入其中的哪一个，<br>而GuildFi也提供了公会列表，并列出了不同公会的所在区域和与用户分成的比例。</p>
+<p><img src="/image/guildfi/guildfi-guild-discovery.png"></p>
+<p>此外最重要的是，公会往往会提供“奖学金”计划，<br>通过租赁游戏进场所需的NFT，降低玩家进入游戏的成本，<br>并提供专业的辅导和教学来告诉玩家如何提高打金水平和收益。<br>这些信息若都能集成在GuildFi中，将极大程度的降低玩家的学习成本和进场成本，<br>这就解决了前文所述的玩家在现实中面临的问题。</p>
+<p><img src="/image/guildfi/guildfi-4.jpg"></p>
+<p><strong>2.玩家：通过一站式账号ID和经验值系统，最大化玩家的时间价值</strong><br>在游戏平台中还存在两个功能分别是GuildFi ID和“游玩证明”，<br>前者是该平台的通用ID，仅需简单的注册步骤，<br>即可达到“一个账号，畅玩平台全部游戏”的效果，而不同游戏的时长，成就等也都集成在账号中，<br>这非常类似苹果商店或者谷歌商店的账号，能够管理手机内所有下载游戏的信息。</p>
+<p>而与ID关联的则是任务和奖励系统，平台会自动关联你玩的所有游戏，<br>并设计一系列的任务让你达成，成功后可以获得GXP（GuildFi的游戏经验值系统），<br>这些奖励可以让你获得额外的NFT空投，新游戏提前体验以及GF通证。</p>
+<p><img src="/image/guildfi/guildfi-9.png"></p>
+<p>这种统一账户ID和游戏经验值奖励的设计，则最大化了玩家投入时间的价值，<br>而以前玩家玩不同的游戏仅能获得游戏内的奖励，<br>现在则多了一层GuildFi平台提供的奖励，一举多得。</p>
+<p><img src="/image/guildfi/guildfi-5.jpg"></p>
+<p><strong>3.公会：提供公会网络+一站式公会组建服务，降低公会组建和运营成本</strong><br>GuildFi作为一个平台，自然会有自己的基金和天使投资，<br>通过背后资金的支持，初始创建的公会可以向平台借入NFT资产，<br>而公会则可以将这些资产再借出给招募的玩家，这就降低了公会的资金成本。</p>
+<p>此外，如果多个公会都入驻了GuildFi平台，他们之间也可以互相出借NFT资产，<br>这也达到了公会间资源的优化配置。<br>在招募玩家方面，GuildFi也内置了一个“奖学金门户”，<br>使公会能够更为快捷的通过平台招募到玩家，这也对应着前文介绍的面向玩家的“公会发现”，<br>达到了玩家和公会之间匹配效率的提升。</p>
+<p><img src="/image/guildfi/guildfi-10.png"></p>
+<p>更为重要的是，GuildFi平台推出了一项“公会即服务”的功能，<br>这个概念与时下流行的“云服务”和“软件即服务”的概念类似，<br>即由GuildFi提供各种公会所需要的模块，如创建ID、注资、运营、资产管理等，<br>公会进来可以按照自己目前发展的阶段，按需选取相应的模块和服务，从而完善自己的公会建设。<br>而以上这些则解决了公会目前在链游领域面临的种种问题。</p>
+<p><img src="/image/guildfi/guildfi-6.jpg"></p>
+<p><strong>4.游戏：Metadrop作为营销手段吸引更多用户参与</strong><br>对于玩家来说，吸引他们参与某个游戏的理由，<br>除了打金收益外，不定时的NFT和通证空投也是其中之一。<br>对玩家来说的“薅羊毛”，其实对游戏方来说则是一种重要的获客手段。</p>
+<p><img src="/image/guildfi/guildfi-11.png"></p>
+<p>GuildFi平台也提供了一个Metadrop专区，专供游戏方来发布空投，<br>而玩家则依据前文所述的GXP等来获得不同层级的空投奖励，<br>此举也更好的连接了玩家和游戏方，而这种直接的激励都可以在同一个平台上完成，<br>在平台粘性增加的同时，接入平台的游戏方均可受益。</p>
+<p><img src="/image/guildfi/guildfi-7.jpg"></p>
+<p>最后，游戏的工具专区在官网中并没有得到体现，<br>白皮书中描述该区域主要是用于公会奖学金的账户管理和支付管理，<br>同时还能看到不同游戏的排行榜以及PVP模拟等，<br>这一部分内容是GuildFi基于Axie的公会经验所开发的，<br>实际成品功能的普适性有待后续观察。</p>
+<h3 id="GuildFi的基本面：优秀资方加持-丰富的公会经验"><a href="#GuildFi的基本面：优秀资方加持-丰富的公会经验" class="headerlink" title="GuildFi的基本面：优秀资方加持+丰富的公会经验"></a>GuildFi的基本面：优秀资方加持+丰富的公会经验</h3><p>GuildFi已经完成了600万美元的种子轮融资，<br>除了Definance和hashed领投之外，<br>Aniomca，coinbase及coin98等也参与了投资，<br>这些知名的资方入局，也体现了资本对于构建GuildFi平台的看好，<br>毕竟目前市场上公会众多，而连接公会游戏和玩家的平台则没有出现龙头。</p>
+<p><img src="/image/guildfi/guildfi-12.png"></p>
+<p>而关于GuildFi，其前身也是一个泰国本地的游戏公会，<br>成立社区超过5年，并活跃在Axie、THG和传奇4等游戏中，<br>举办过不少公会活动，如举办杯赛和组织团队击杀游戏BOSS等。</p>
+<p><img src="/image/guildfi/guildfi-13.png"></p>
+<p>这些公会经验在建立GuildFi平台时可以得到复用，并指导其他公会的创建和运营。</p>
+<h2 id="GF通证介绍"><a href="#GF通证介绍" class="headerlink" title="GF通证介绍"></a>GF通证介绍</h2><p>在了解完GuildFi的全部功能后，其通证GF的作用就变得非常易于理解，<br>随着GuildFi的功能落地和发展，GF对GuildFi的功能存在价值捕获的效应:</p>
+<ol>
+<li>价值发现：GuildFi里的游戏玩家越多，游戏生态越庞大，则意味着平台收入的提高和流量的增加，这将对GF通证形成利好。</li>
+<li>GF DAO会员权益：持有GF，玩家可以抢先体验游戏，参与稀有NFT分配和空投，并获得质押奖励。此外，GuildFi为公会提供的各种创建服务也会产生收益，玩家可以依据持有的GF比例获得不同额度的分成。</li>
+<li>治理与决策：投票哪些游戏可以加入GuildFi等。</li>
+</ol>
+<p>值得一提的是，GF目前正在官方进行通证拍卖。</p>
+<p>起始时间为12月1日-12月4日，并采用价高者得的荷兰拍卖形式， 有兴趣的读者可以关注。</p>
+<p><img src="/image/guildfi/guildfi-14.png"></p>
+<h2 id="GuildFi的潜力和风险"><a href="#GuildFi的潜力和风险" class="headerlink" title="GuildFi的潜力和风险"></a>GuildFi的潜力和风险</h2><p>综合来看，GuildFi目前在做的是典型的平台建设，<br>即通过平台来匹配市场上的供需方，实现资源最优配置。</p>
+<p>这种做法类似于滴滴打车平台， 通过吸引打车人和车主入驻，且无论车辆属于哪家服务公司， 都能满足运输能力和出行需求的高效匹配。</p>
+<p><strong>这里的打车人=玩家，这辆车=游戏， 车主或者服务公司=公会，而滴滴=GuildFi</strong>。</p>
+<p>而平台经济往往具备两个优势， 即“赢家通吃”和“先发制人”，</p>
+<p>一旦用户粘性构建起来后， 其他想要效仿该平台则难以获得同级别的流量。</p>
+<p>也正因为GuildFi在做连接玩家、游戏和公会间的平台，</p>
+<p>它的定位和我们熟知的YGG也是不一样的，</p>
+<p><strong>GuildFi可以被理解为： YGG + 公会搭建支持 + 公会资源贡献 + 平台经济</strong>。</p>
+<p>但我们也应该清楚的认识到，<br>做一个连接的平台也不存在技术壁垒，<br>其他的公会也可以争相模仿，如果竞对拥有更快的建设速度和更加雄厚的资本支持，<br>那么GuildFi的优势也有可能被瓦解。</p>
+<p>此外，一些优质的链游出于利益的考虑可能也不会选择和平台合作，<br>类似著名手游元神不和发行渠道合作，独自负责宣发而避免高额的抽成，<br>这时候GuildFi的连接游戏方的作用也会受到影响。</p>
+<p>而无论如何，一个完整的元宇宙概念里，<br>游戏，玩家和公会应该是可以高效的相互链接的，<br>在目前元宇宙中的角色们还处在一个个孤岛中的情况下，<br>构建连接是完全值得提倡的。<br>虽然连接不同角色的道路比较难走，<br>涉及到各类资源的整合，<br>但最曲折的路有时最简捷，<br>这条路可能也是通向元宇宙繁荣的捷径。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%93%BE%E6%B8%B8/" rel="tag"># 链游</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/09/20211209-protobufUseInGame/" rel="prev" title="浏览器使用websocket通过protobuf协议与netty服务端通信">
+      <i class="fa fa-chevron-left"></i> 浏览器使用websocket通过protobuf协议与netty服务端通信
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Jianfeng</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"1kVszHAOMaqpz0p9HaUY4jS3-9Nh9j0Va","appKey":"GKfDomM0s9bBI7BLr9K1iSvR","placeholder":"Just go go","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"language":"zh-cn","visitor":false,"comment_count":true,"recordIP":false,"serverURLs":null}
+    ));
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

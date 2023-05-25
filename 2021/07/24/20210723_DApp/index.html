@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false};
+  </script>
+
+  <meta name="description" content="以太坊客户端安装以太坊客户端介绍 我们选择其中一个主流的客户端go-ethereum（Geth）进行安装。以Windows为例：执行：pkg install go-ethereum 其他环境安装 链搭建以搭建私链为例：  新建目录（eth-pri）  执行启动命令 1geth --datadir ether-pri --rpcapi&#x3D;&quot;db,eth,net,web3,miner,pers">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DApp">
+<meta property="og:url" content="http://yoursite.com/2021/07/24/20210723_DApp/index.html">
+<meta property="og:site_name" content="Chenjf&#39;s Blog">
+<meta property="og:description" content="以太坊客户端安装以太坊客户端介绍 我们选择其中一个主流的客户端go-ethereum（Geth）进行安装。以Windows为例：执行：pkg install go-ethereum 其他环境安装 链搭建以搭建私链为例：  新建目录（eth-pri）  执行启动命令 1geth --datadir ether-pri --rpcapi&#x3D;&quot;db,eth,net,web3,miner,pers">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-24T09:15:15.000Z">
+<meta property="article:modified_time" content="2021-07-30T06:07:49.487Z">
+<meta property="article:author" content="Chen Jianfeng">
+<meta property="article:tag" content="DApp">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2021/07/24/20210723_DApp/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>DApp | Chenjf's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Chenjf's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">以太坊客户端安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%93%BE%E6%90%AD%E5%BB%BA"><span class="nav-number">2.</span> <span class="nav-text">链搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%88%E7%BA%A6"><span class="nav-number">3.</span> <span class="nav-text">合约</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91"><span class="nav-number">3.1.</span> <span class="nav-text">合约开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%88%E7%BA%A6%E7%BC%96%E8%AF%91%E3%80%81%E9%83%A8%E7%BD%B2"><span class="nav-number">3.2.</span> <span class="nav-text">合约编译、部署</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Remix"><span class="nav-number">3.2.1.</span> <span class="nav-text">Remix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Truffle"><span class="nav-number">3.2.2.</span> <span class="nav-text">Truffle</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%88%E7%BA%A6%E8%B0%83%E8%AF%95"><span class="nav-number">3.3.</span> <span class="nav-text">合约调试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91"><span class="nav-number">4.</span> <span class="nav-text">前端开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java%E8%B0%83%E7%94%A8%E5%90%88%E7%BA%A6"><span class="nav-number">5.</span> <span class="nav-text">Java调用合约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MetaMask%E9%92%B1%E5%8C%85"><span class="nav-number">6.</span> <span class="nav-text">MetaMask钱包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E5%88%B0%E6%B5%8B%E8%AF%95%E9%93%BE"><span class="nav-number">7.</span> <span class="nav-text">部署到测试链</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%81%E5%AE%89%E6%B5%8B%E8%AF%95%E9%93%BE"><span class="nav-number">7.1.</span> <span class="nav-text">币安测试链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%81%AB%E5%B8%81%E6%B5%8B%E8%AF%95%E9%93%BE"><span class="nav-number">7.2.</span> <span class="nav-text">火币测试链</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FAQ"><span class="nav-number">8.</span> <span class="nav-text">FAQ</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chen Jianfeng"
+      src="https://pic.downk.cc/item/5f277a5a14195aa594cad4d0.jpg">
+  <p class="site-author-name" itemprop="name">Chen Jianfeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/24/20210723_DApp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://pic.downk.cc/item/5f277a5a14195aa594cad4d0.jpg">
+      <meta itemprop="name" content="Chen Jianfeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chenjf's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DApp
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-24 17:15:15" itemprop="dateCreated datePublished" datetime="2021-07-24T17:15:15+08:00">2021-07-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-30 14:07:49" itemprop="dateModified" datetime="2021-07-30T14:07:49+08:00">2021-07-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Project/" itemprop="url" rel="index"><span itemprop="name">Project</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/07/24/20210723_DApp/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/07/24/20210723_DApp/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="以太坊客户端安装"><a href="#以太坊客户端安装" class="headerlink" title="以太坊客户端安装"></a>以太坊客户端安装</h2><p><a target="_blank" rel="noopener" href="https://ethereumdocch.readthedocs.io/zh/latest/ethereum-clients/index.html">以太坊客户端介绍</a></p>
+<p>我们选择其中一个主流的客户端go-ethereum（Geth）进行安装。以Windows为例：<br>执行：<br><code>pkg install go-ethereum</code></p>
+<p><a target="_blank" rel="noopener" href="https://geth.ethereum.org/docs/install-and-build/installing-geth">其他环境安装</a></p>
+<h2 id="链搭建"><a href="#链搭建" class="headerlink" title="链搭建"></a>链搭建</h2><p>以搭建私链为例：</p>
+<ol>
+<li><p>新建目录（eth-pri）</p>
+</li>
+<li><p>执行启动命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geth --datadir ether-pri --rpcapi=&quot;db,eth,net,web3,miner,personal,web3&quot; --http --dev --dev.period 10 --http.corsdomain &quot;https://remix.ethereum.org,http://remix.ethereum.org&quot;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://geth.ethereum.org/docs/interface/command-line-options">参数说明</a></p>
+</li>
+<li><p>连接客户端</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geth attach http://localhost:8545</span><br></pre></td></tr></table></figure></li>
+<li><p>命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">账号</span><br><span class="line">    创建：personal.newAccount()</span><br><span class="line">    获取账号：eth.accounts</span><br><span class="line">    获取余额：eth.getBalance(&quot;sssss&quot;)</span><br><span class="line">    解锁账号：personal.unlockAccount(user1,password)</span><br><span class="line"></span><br><span class="line">挖矿</span><br><span class="line">    开始：miner.start()</span><br><span class="line">    结束：miner.stop()</span><br><span class="line">    设置挖矿奖励用户：miner.setEtherbase(user3)</span><br><span class="line"></span><br><span class="line">转账</span><br><span class="line">    u1 = eth.accounts[0]</span><br><span class="line">    u2 = eth.accounts[1]</span><br><span class="line">    eth.sendTransaction(&#123;from:u1, to:u2, value:web3.toWei(10, &quot;ether&quot;)&#125;)</span><br><span class="line"></span><br><span class="line">交易前解锁账号</span><br><span class="line">    personal.unlockAcount(u1, password)</span><br><span class="line"></span><br><span class="line">交易完需要挖矿来确认</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://web3js.readthedocs.io/en/v1.2.9/">其他命令操作</a> 可以参考Web3js</p>
+</li>
+</ol>
+<h2 id="合约"><a href="#合约" class="headerlink" title="合约"></a>合约</h2><h3 id="合约开发"><a href="#合约开发" class="headerlink" title="合约开发"></a>合约开发</h3><p><a target="_blank" rel="noopener" href="https://docs.soliditylang.org/en/v0.8.6/">solidity英文开发文档</a><br><a target="_blank" rel="noopener" href="https://learnblockchain.cn/docs/solidity/index.html">solidity中文开发文档</a></p>
+<p>(合约调用的四种方式](<a target="_blank" rel="noopener" href="https://blog.csdn.net/TurkeyCock/article/details/83826531">https://blog.csdn.net/TurkeyCock/article/details/83826531</a>)<br>library:公共代码复用，不允许定义任何storage类型的变量，不能修改合约的状态。</p>
+<h3 id="合约编译、部署"><a href="#合约编译、部署" class="headerlink" title="合约编译、部署"></a>合约编译、部署</h3><h4 id="Remix"><a href="#Remix" class="headerlink" title="Remix"></a><a target="_blank" rel="noopener" href="https://remix.ethereum.org/">Remix</a></h4><p>remix访问本地：</p>
+<ol>
+<li>uninstall the old one： <code>npm uninstall -g remixd</code></li>
+<li>install the new： <code>npm install -g @remix-project/remixd</code></li>
+<li>share folder： <code>remixd -s &lt;absolute-path&gt; --remix-ide https://remix.ethereum.org</code></li>
+</ol>
+<h4 id="Truffle"><a href="#Truffle" class="headerlink" title="Truffle"></a>Truffle</h4><p><a target="_blank" rel="noopener" href="https://truffle.tryblockchain.org/Solidity-truffle-%e5%ae%9e%e6%88%98.html">文档</a><br><a target="_blank" rel="noopener" href="https://github.com/ChenJFMorton/truffleTest">Truffle、Solidity合约项目Demo</a></p>
+<ol>
+<li>初始化truffle项目：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm init -y</span><br><span class="line">truffle init</span><br></pre></td></tr></table></figure></li>
+<li>solidity安装外部依赖：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// ERC20依赖</span><br><span class="line">npm install  @openzeppelin/contracts</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="合约调试"><a href="#合约调试" class="headerlink" title="合约调试"></a>合约调试</h3><p><a target="_blank" rel="noopener" href="https://github.com/nomiclabs/buidler-evm-demo">Buidler</a>内置了Buidler EVM ，这是一个专为开发而设计的以太坊网络。它允许你部署合约，运行测试和调试代码。可以将合约部署到buidler-evm上，调试完再部署到实际使用的链上。<br>使用步骤：</p>
+<ol>
+<li>启动（每次启动貌似起个新链，之前部署的合约都不存在了）<br><code>npx buidler node</code></li>
+<li>合约项目下载Buidler依赖<br><code>npm install @nomiclabs/buidler</code></li>
+<li>合约引入console依赖<br><code>import &quot;@nomiclabs/buidler/console.sol&quot;;</code></li>
+<li>使用日志打印<br><code>console.log(&quot;value:&quot;, 11);</code><br>注：<br>支持的solidity版本 &lt; 0.8.0，如果solidity版本&gt;=0.8.0，可以修改console源码，把byte类型相关去除</li>
+</ol>
+<p>其他资料：<br><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1679411">https://cloud.tencent.com/developer/article/1679411</a><br><a target="_blank" rel="noopener" href="https://www.blockvalue.com/news/2019100619910.html">https://www.blockvalue.com/news/2019100619910.html</a></p>
+<h2 id="前端开发"><a href="#前端开发" class="headerlink" title="前端开发"></a>前端开发</h2><p><a target="_blank" rel="noopener" href="https://github.com/ChenJFMorton/guess">Demo地址</a><br>Vue + Element-Ui + Web3js</p>
+<ol>
+<li>创建Vue项目<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">安装vue：npm install -g vue-cli</span><br><span class="line">初始化vue项目：vue init webpack my-project</span><br><span class="line">安装web3：npm install web3@1.3.1</span><br><span class="line">启动项目：npm run dev</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="Java调用合约"><a href="#Java调用合约" class="headerlink" title="Java调用合约"></a>Java调用合约</h2><ol>
+<li><p>pom.xml引用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.web3j&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;core&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;4.8.4&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.web3j&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;codegen&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;4.8.4&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>通过abi文件生成java类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">private static void transformABI() throws Exception &#123;</span><br><span class="line">    //org.web3j.codegen.TruffleJsonFunctionWrapperGenerator /path/to/&lt;truffle-smart-contract-output&gt;.json -o /path/to/src/main/java -p com.your.organisation.name</span><br><span class="line">    TruffleJsonFunctionWrapperGenerator.main(new String[]&#123;&quot;D:\\developtools\\truffle\\workspace\\truffleTest\\build\\contracts\\GuessVote.json&quot;,&quot;-o&quot;,&quot;D:/git/netease-leihuo/ethereum-test/src/main/java&quot;,&quot;-p&quot;,&quot;com.cjf.web3j.abi&quot;&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>合约中方法调用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">// 默认链接到，或者自己指定 http://localhost:8545/</span><br><span class="line">Web3j web3 = Web3j.build(new HttpService()); </span><br><span class="line">//获取链接到的client的版本</span><br><span class="line">Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().send();</span><br><span class="line">String clientVersion = web3ClientVersion.getWeb3ClientVersion();</span><br><span class="line">System.out.println(clientVersion);</span><br><span class="line"></span><br><span class="line">//获取当前gasprice</span><br><span class="line">EthGasPrice gasPrice = web3.ethGasPrice().send();</span><br><span class="line"></span><br><span class="line">BigInteger priceResult = gasPrice.getGasPrice();</span><br><span class="line">System.out.println(&quot;current gas price:&quot; + priceResult);</span><br><span class="line"></span><br><span class="line">//获取块的gasLimit</span><br><span class="line">EthBlock.Block block = web3.ethGetBlockByNumber(DefaultBlockParameterName.LATEST, false).send().getBlock();</span><br><span class="line">System.out.println(&quot;BLOCK GAS LIMIT:&quot; + block.getGasLimit());</span><br><span class="line"></span><br><span class="line">StaticGasProvider gasProvider = new StaticGasProvider(priceResult, block.getGasLimit());</span><br><span class="line"></span><br><span class="line">//使用私钥创建Credentials</span><br><span class="line">Credentials owner = Credentials.create(&quot;****&quot;);</span><br><span class="line"></span><br><span class="line">//需要指定chainId来创建TransactionManager ，否则交易会因为防重放攻击而无法被执行</span><br><span class="line">TransactionManager transactionManager = new RawTransactionManager(web3, owner, 1337);</span><br><span class="line"></span><br><span class="line">//获取一个链上已经存在的合约</span><br><span class="line">GuessVote guessVote = GuessVote.load(GuessVote.getPreviouslyDeployedAddress(&quot;1337&quot;), web3, transactionManager, gasProvider);</span><br><span class="line"></span><br><span class="line">// 调用合约中的方法</span><br><span class="line">TransactionReceipt s = guessVote.generateVoteResult().send();</span><br><span class="line">System.out.println(s);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="MetaMask钱包"><a href="#MetaMask钱包" class="headerlink" title="MetaMask钱包"></a>MetaMask钱包</h2><p><a target="_blank" rel="noopener" href="https://docs.metamask.io/guide/getting-started.html">MetaMask文档</a><br>安装：<code>npm install metamask</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 获取最新区块</span><br><span class="line">const newestBlockNum = parseInt(</span><br><span class="line">          await ethereum.request(&#123;</span><br><span class="line">            method: &quot;eth_blockNumber&quot;,</span><br><span class="line">            params: [],</span><br><span class="line">          &#125;),</span><br><span class="line">          16</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">// 获取账号</span><br><span class="line">const accounts = await ethereum.request(&#123;</span><br><span class="line">        method: &quot;eth_requestAccounts&quot;,</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">// 获取账号余额</span><br><span class="line">const balance = await this.usstContract.methods</span><br><span class="line">          .balanceOf(this.account)</span><br><span class="line">          .call();</span><br></pre></td></tr></table></figure>
+
+<h2 id="部署到测试链"><a href="#部署到测试链" class="headerlink" title="部署到测试链"></a>部署到测试链</h2><h3 id="币安测试链"><a href="#币安测试链" class="headerlink" title="币安测试链"></a>币安测试链</h3><p><a target="_blank" rel="noopener" href="https://docs.binance.org/smart-chain/developer/rpc.html">文档</a><br><a target="_blank" rel="noopener" href="https://docs.binance.org/smart-chain/wallet/metamask.html">水龙头相关文档</a><br><a target="_blank" rel="noopener" href="https://www.mytokencap.com/announcement/1072241.html">水龙头其他文档</a> </p>
+<p>注：ip限制，充值不上换代理。</p>
+<p>部署测试链步骤：</p>
+<ol>
+<li>修改truffle-config.js<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const HDWalletProvider = require(&#x27;@truffle/hdwallet-provider&#x27;);</span><br><span class="line"></span><br><span class="line">const fs = require(&#x27;fs&#x27;);</span><br><span class="line">const mnemonic = fs.readFileSync(&quot;.secret&quot;).toString().trim();</span><br></pre></td></tr></table></figure>
+networks增加配置<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">testnet: &#123;</span><br><span class="line">      provider: () =&gt; new HDWalletProvider(mnemonic, `https://data-seed-prebsc-2-s1.binance.org:8545`),</span><br><span class="line">      network_id: 97,</span><br><span class="line">      confirmations: 10,</span><br><span class="line">      timeoutBlocks: 200,</span><br><span class="line">      skipDryRun: true</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+<li>部署命令<br><code>truffle migrate --network testnet</code></li>
+</ol>
+<h3 id="火币测试链"><a href="#火币测试链" class="headerlink" title="火币测试链"></a>火币测试链</h3><p><a href="www.hecochain.com">官网地址</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">测试网地址：</span><br><span class="line">    chainid 256</span><br><span class="line">    RPC wss://ws-testnet.hecochain.com</span><br><span class="line">    https://http-testnet.hecochain.com</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://scan-testnet.hecochain.com/">浏览器</a><br><a target="_blank" rel="noopener" href="https://scan-testnet.hecochain.com/faucet">测试币水龙头</a></p>
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><ol>
+<li>Exception in thread “main” java.lang.UnsupportedOperationException: Unsupported type encountered: tuple<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://stackoverflow.com/questions/48877910/how-can-i-return-an-array-of-struct-in-solidity</span><br></pre></td></tr></table></figure></li>
+<li>合约多字段返回<br>java:元组<br>js:struct[]，调用call方法需要传account<br> <a target="_blank" rel="noopener" href="https://learnblockchain.cn/docs/web3.js/web3-eth-contract.html#methods-mymethod-call">参考文档</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/DApp/" rel="tag"># DApp</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/04/20200804_invertedIndex/" rel="prev" title="搜索引擎是如何实现快速查询？">
+      <i class="fa fa-chevron-left"></i> 搜索引擎是如何实现快速查询？
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/04/20210804-netty/" rel="next" title="Netty">
+      Netty <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Jianfeng</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"1kVszHAOMaqpz0p9HaUY4jS3-9Nh9j0Va","appKey":"GKfDomM0s9bBI7BLr9K1iSvR","placeholder":"Just go go","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"language":"zh-cn","visitor":false,"comment_count":true,"recordIP":false,"serverURLs":null}
+    ));
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
